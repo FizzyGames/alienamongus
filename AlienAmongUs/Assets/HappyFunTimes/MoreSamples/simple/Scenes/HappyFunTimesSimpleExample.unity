@@ -536,7 +536,7 @@ MonoBehaviour:
     type: 2}
   maxPlayers: 0
   happyfuntimesOptions:
-    controllerFilename: controllers/simple/controller.html
+    controllerFilename: controllers/.AlienAmongUs/controller.html
     name: 
     id: 
     master: 0
