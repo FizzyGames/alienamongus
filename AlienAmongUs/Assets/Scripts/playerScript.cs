@@ -5,31 +5,16 @@ using HappyFunTimes;
 
 public class playerScript : MonoBehaviour {
 	public int ID;
-	public string name;
-	public Texture photo;
-	public HappyFunTimes.netPlayer phoneRef;
+	public string playerName;
+	public Texture playerPhoto;
+	public HappyFunTimes.NetPlayer phoneRef;
 	// Use this for initialization
 
 	void InitializeNetPlayer(SpawnInfo spawnInfo) {
 		// Save the netplayer object so we can use it send messages to the phone
 		phoneRef = spawnInfo.netPlayer;
+        GameObject.FindObjectOfType<gm>().allNetPlayers.Add(phoneRef);
 
-		// Register handler to call if the player disconnects from the game.
-		m_netPlayer.OnDisconnect += Remove;
-
-		// Track name changes
-		m_playerNameManager = new HFTPlayerNameManager(m_netPlayer);
-		m_playerNameManager.OnNameChange += ChangeName;
-
-		// Setup events for the different messages.
-		m_netPlayer.RegisterCmdHandler<MessageMove>("move", OnMove);
-		m_netPlayer.RegisterCmdHandler<MessagePic>("pic", OnPicture);
-
-		ExampleCameraGameSettings settings = ExampleCameraGameSettings.settings();
-		m_position = new Vector3(UnityEngine.Random.Range(0, settings.areaWidth), 0, UnityEngine.Random.Range(0, settings.areaHeight));
-		transform.localPosition = m_position;
-
-		SetName(m_playerNameManager.Name);
 	}
 
 	void Start () {
