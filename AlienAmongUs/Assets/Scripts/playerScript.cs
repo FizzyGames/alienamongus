@@ -4,15 +4,60 @@ using UnityEngine;
 using HappyFunTimes;
 
 public class playerScript : MonoBehaviour {
+    public enum PlayerState
+    {
+        Dead,
+        Alive,
+        Poisoned,
+    }
+    public enum PlayerType
+    {
+        Human,
+        Alien,
+    }
 	public int ID;
 	public string playerName;
 	public Texture playerPhoto;
 	public HappyFunTimes.NetPlayer phoneRef;
     public gm gms;
-    public bool isAlien, dead, poisoned;
-	// Use this for initialization
+    //public bool isAlien, dead, poisoned;
+    private PlayerState state;
+    private PlayerType _type;
 
-	void InitializeNetPlayer(SpawnInfo spawnInfo) {
+    public PlayerState State
+    {
+        get
+        {
+            return state;
+        }
+
+        set
+        {
+            state = value;
+        }
+    }
+
+    public PlayerType Type
+    {
+        get
+        {
+            return _type;
+        }
+
+        set
+        {
+            _type = value;
+        }
+    }
+
+    public bool IsAlive { get { return State != PlayerState.Dead; } }
+    public bool IsDown { get { return State != PlayerState.Alive; } }
+    public bool IsAlien { get { return Type == PlayerType.Alien; } }
+
+
+    // Use this for initialization
+
+    void InitializeNetPlayer(SpawnInfo spawnInfo) {
 		// Save the netplayer object so we can use it send messages to the phone
 		phoneRef = spawnInfo.netPlayer;
         gms = GameObject.FindObjectOfType<gm>();
@@ -81,8 +126,16 @@ public class playerScript : MonoBehaviour {
 
     public void death()
     {
-        dead = true;
+        //dead = true;
+        State = PlayerState.Dead;
         //PUT UP DAT RED SCREEN
     }
 
+    public void poison()
+    {
+        if(State == PlayerState.Alive && !IsAlien)
+        {
+            State = PlayerState.Poisoned;
+        }
+    }
 }

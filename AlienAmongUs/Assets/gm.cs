@@ -30,7 +30,7 @@ public class gm : MonoBehaviour {
 
     public void accusation(int source, int target)
     {
-        if (idToPlayer[target].isAlien)//if the target is an alien
+        if (idToPlayer[target].IsAlien)//if the target is an alien
         {
             //GAME OVER WE WIN
 
@@ -43,7 +43,7 @@ public class gm : MonoBehaviour {
 
     public void poison(int target)
     {
-        idToPlayer[target].poisoned = true;
+        idToPlayer[target].poison();
 
     }
 
