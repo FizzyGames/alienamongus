@@ -65,7 +65,7 @@ public class gm : MonoBehaviour {
     }
 
     //COMMANDS TO BE SENT TO THE PHONE
-
+    #region toPhone
     private class messageSendID
     {
         public messageSendID(int target)
@@ -83,5 +83,7 @@ public class gm : MonoBehaviour {
 
     }
 
+
+    #endregion
     //END COMMANDS TO BE SENT TO THE PHONE
 }

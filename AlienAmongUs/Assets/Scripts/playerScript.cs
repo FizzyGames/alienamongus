@@ -21,19 +21,19 @@ public class playerScript : MonoBehaviour {
 	public HappyFunTimes.NetPlayer phoneRef;
     public gm gms;
     //public bool isAlien, dead, poisoned;
-    private PlayerState state;
+    private PlayerState _state;
     private PlayerType _type;
 
     public PlayerState State
     {
         get
         {
-            return state;
+            return _state;
         }
 
         set
         {
-            state = value;
+            _state = value;
         }
     }
 
