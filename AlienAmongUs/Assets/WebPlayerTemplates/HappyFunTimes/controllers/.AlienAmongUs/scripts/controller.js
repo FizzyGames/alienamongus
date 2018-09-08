@@ -39,7 +39,7 @@ var strings = sampleUI.strings;
 var touch = sampleUI.touch;
 
 var globals = {
-  debug: false,
+    debug: false,
   //orientation: "landscape-primary",
 };
 misc.applyUrlSettings(globals);
@@ -91,18 +91,44 @@ inputElem.addEventListener('pointermove', function(event) {
   event.preventDefault();
 });
 
-$("abutton").addEventListener('click', function() {
+("abutton").addEventListener('click', function() {
   settingsElement.style.display = "none";
   s.playerNameHandler.startNameEntry();
 }, false);
 
 document.getElementById("abutton").addEventListener("click", myFunction);
 
-function myFunction() {
-    document.getElementById("abutton").innerHTML = "YOU CLICKED ME!";
-    client.sendCmd('setName', {
-        selectedName: "booty",
-    });
+var keypadVal = 0;
+
+function myFunction(num) {
+    if (document.getElementById("numText").innerHTML.includes("Enter")) {
+        keypadVal = 0;
+        document.getElementById("numText").innerHTML = "";
+    }
+        
+    if (num == 99){
+        document.getElementById("numText").innerHTML = "";
+        keypadVal = 0;
+    }
+ 
+    else if (num == 88) {
+        if (keypadVal>99){ 
+            document.getElementById("numText").innerHTML = "";
+            keypadVal = 0;
+            client.sendCmd('requestScan', {
+                idToScan: parseInt(keypadVal),
+            });
+        }
+
+    }
+    else if (keypadVal < 100) {
+        keypadVal = keypadVal * 10;
+        keypadVal += num;
+        document.getElementById("numText").innerHTML = keypadVal
+
+    }
+        
+
 }
 
 // Update our score when the game tells us.
