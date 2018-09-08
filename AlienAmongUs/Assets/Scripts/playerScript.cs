@@ -35,7 +35,7 @@ public class playerScript : MonoBehaviour {
 
     private class messageAccuse
     {
-        public int idToAccuse;
+        public int idToAccuse = 0;
     };
 
     private void onAccuse(messageAccuse data)
@@ -45,7 +45,7 @@ public class playerScript : MonoBehaviour {
 
     private class messageSetName
     {
-        public string selectedName;
+        public string selectedName = null;
     };
 
     private void onSetName(messageSetName data)
@@ -57,7 +57,7 @@ public class playerScript : MonoBehaviour {
 
     private class messagePoison
     {
-        public int idToPoison;
+        public int idToPoison = 0;
     };
 
     private void onPoison(messagePoison data)
@@ -69,7 +69,7 @@ public class playerScript : MonoBehaviour {
 
     private class messageRequestScan
     {
-        public int idToScan;
+        public int idToScan = 0;
     };
 
     private void onRequestScan(messageRequestScan data)

@@ -75,8 +75,8 @@ public class gm : MonoBehaviour {
             gms.idToPlayer[target].playerPhoto = playerPhoto;
 
         }
-        public string playerName;
-        public Texture playerPhoto;
+        public string playerName = null;
+        public Texture playerPhoto = null;
 
         //on the phone, the handler will look like
         //client.addEventListener('idDelivery', function(data){idName = data.playerName}
