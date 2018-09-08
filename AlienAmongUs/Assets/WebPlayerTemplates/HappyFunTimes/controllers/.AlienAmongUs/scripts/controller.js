@@ -71,6 +71,8 @@ var sendMoveCmd = function(position, target) {
   });
 };
 
+
+
 // Pick a random color
 var color =  'rgb(' + randInt(256) + "," + randInt(256) + "," + randInt(256) + ")";
 // Send the color to the game.
@@ -98,6 +100,9 @@ document.getElementById("abutton").addEventListener("click", myFunction);
 
 function myFunction() {
     document.getElementById("abutton").innerHTML = "YOU CLICKED ME!";
+    client.sendCmd('setName', {
+        selectedName: "booty",
+    });
 }
 
 // Update our score when the game tells us.
@@ -106,3 +111,4 @@ client.addEventListener('scored', function(cmd) {
   statusElem.innerHTML = "You scored: " + cmd.points + " total: " + score;
 });
 
+var instance = M.Tabs.init(el, options);
