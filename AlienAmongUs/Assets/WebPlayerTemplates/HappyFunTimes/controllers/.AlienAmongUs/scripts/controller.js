@@ -91,7 +91,7 @@ inputElem.addEventListener('pointermove', function(event) {
   event.preventDefault();
 });
 
-("abutton").addEventListener('click', function() {
+$("abutton").addEventListener('click', function() {
   settingsElement.style.display = "none";
   s.playerNameHandler.startNameEntry();
 }, false);
@@ -137,4 +137,8 @@ client.addEventListener('scored', function(cmd) {
   statusElem.innerHTML = "You scored: " + cmd.points + " total: " + score;
 });
 
-var instance = M.Tabs.init(el, options);
+$(document).ready(function(){
+  $('.tabs').tabs();
+});
+
+$('#abutton').html('hell yeah');

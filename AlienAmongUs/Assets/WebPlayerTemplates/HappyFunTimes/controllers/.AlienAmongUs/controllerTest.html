@@ -50,23 +50,20 @@
 </head>
 <body touch-action="none">
 <div id="hft-everything">
+          <div class="row">
+              <div class="col s12">
+                  <ul class="tabs">
+                      <li class="tab"><a href="#abutton">Test 1</a></li>
+                      <li class="tab"><a href="#anotherbutton">Test 2</a></li>
+                      <li class="tab"><a href="#test3">Test 3</a></li>
+                      <li class="tab"><a href="#test4">Test 4</a></li>
+                  </ul>
+              </div>
+          </div>
   <div id="hft-content">
     <div id="gamearea" class="fixheight">
       <h1 id="gamestatus">status</h1>
       <div id="display" class="hft-fullcenter fixheight">
-          <div class="row">
-              <div class="col s12">
-                  <ul class="tabs">
-                      <li class="tab col s3"><a href="#test1">Test 1</a></li>
-                      <li class="tab col s3"><a class="active" href="#test2">Test 2</a></li>
-                      <li class="tab col s3"><a href="#test4">Test 4</a></li>
-                  </ul>
-              </div>
-              <div id="test1" class="col s12">Test 1</div>
-              <div id="test2" class="col s12">Test 2</div>
-              <div id="test3" class="col s12">Test 3</div>
-              <div id="test4" class="col s12">Test 4</div>
-          </div>
 
         <div id="input" class="hft-instruction hft-fullcenter">Touch to Move
           <div  style = "z-index: 4200">
@@ -86,6 +83,8 @@
               <a id="0button" onclick="myFunction(0)" class="waves-effect waves-light btn-large">0</a>
               <a id="confirmbutton" onclick="myFunction(88)" class="waves-effect waves-light btn-large">✓</a> <br />
 
+          <a id = "abutton" onclick="myFunction()" class="waves-effect waves-light btn">button</a>
+          <a id="anotherbutton" class="waves-effect waves-light btn">f;lasdjkfjasd</a>
         </div>
         </div>
 
@@ -123,6 +122,7 @@
   <div id="hft-touchstart">
   </div>
 </div>
+<script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
 <script src="/hft/hft.js"></script>
 <script src="/sample-ui/sample-ui.js"></script>
 <script src="scripts/controller.js"></script>
