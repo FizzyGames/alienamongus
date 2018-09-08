@@ -111,4 +111,8 @@ client.addEventListener('scored', function(cmd) {
   statusElem.innerHTML = "You scored: " + cmd.points + " total: " + score;
 });
 
-var instance = M.Tabs.init(el, options);
+$(document).ready(function(){
+  $('.tabs').tabs();
+});
+
+$('#abutton').html('hell yeah');
