@@ -15,12 +15,11 @@ public class playerScript : MonoBehaviour {
         Human,
         Alien,
     }
-	public int ID;
-	public string playerName;
-	public Texture playerPhoto;
-	public HappyFunTimes.NetPlayer phoneRef;
-    public gm gms;
-    //public bool isAlien, dead, poisoned;
+	public int ID { get; set; }
+	public string PlayerName { get; set; }
+	public Texture PlayerPhoto { get; set; }
+	public HappyFunTimes.NetPlayer PhoneRef { get; set; }
+    public gm Manager { get; set; }
     private PlayerState _state;
     private PlayerType _type;
 
@@ -59,17 +58,18 @@ public class playerScript : MonoBehaviour {
 
     void InitializeNetPlayer(SpawnInfo spawnInfo) {
 		// Save the netplayer object so we can use it send messages to the phone
-		phoneRef = spawnInfo.netPlayer;
-        gms = GameObject.FindObjectOfType<gm>();
-        gms.addPlayer(this);
-        phoneRef.RegisterCmdHandler<messageAccuse>("accuse", onAccuse);
-        phoneRef.RegisterCmdHandler<messageSetName>("setName", onSetName);
-        phoneRef.RegisterCmdHandler<messagePoison>("poison", onPoison);
-        phoneRef.RegisterCmdHandler<messageRequestScan>("requestScan", onRequestScan);
+		PhoneRef = spawnInfo.netPlayer;
+        Manager = GameObject.FindObjectOfType<gm>();
+        Manager.addPlayer(this);
+        PhoneRef.RegisterCmdHandler<messageAccuse>("accuse", onAccuse);
+        PhoneRef.RegisterCmdHandler<messageSetName>("setName", onSetName);
+        PhoneRef.RegisterCmdHandler<messagePoison>("poison", onPoison);
+        PhoneRef.RegisterCmdHandler<messageRequestScan>("requestScan", onRequestScan);
 
     }
+    
 
-	void Start () {
+    void Start () {
 		
 	}
 	
@@ -85,7 +85,7 @@ public class playerScript : MonoBehaviour {
 
     private void onAccuse(messageAccuse data)
     {
-        gms.accusation(ID, data.idToAccuse);
+        Manager.accusation(ID, data.idToAccuse);
     }
 
     private class messageSetName
@@ -95,7 +95,7 @@ public class playerScript : MonoBehaviour {
 
     private void onSetName(messageSetName data)
     {
-        playerName = data.selectedName;
+        PlayerName = data.selectedName;
 
         //update the main screen to reflect this
     }
@@ -107,7 +107,7 @@ public class playerScript : MonoBehaviour {
 
     private void onPoison(messagePoison data)
     {
-        gms.poison(data.idToPoison);
+        Manager.poison(data.idToPoison);
 
         //update the main screen to reflect this
     }
@@ -119,7 +119,7 @@ public class playerScript : MonoBehaviour {
 
     private void onRequestScan(messageRequestScan data)
     {
-        gms.requestID(ID, data.idToScan);
+        Manager.requestID(ID, data.idToScan);
 
         //update the main screen to reflect this
     }

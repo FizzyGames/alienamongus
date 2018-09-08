@@ -23,14 +23,14 @@ public class databaseDisplayScript : MonoBehaviour {
     [ContextMenu("Start Game Display")]
     public void startGameDisplay()
     {
-        foreach (playerScript p in gms.allPlayers)
+        foreach (playerScript p in gms.AllPlayers)
         {
             players.Add(p.gameObject);
             playerAvatars.Add(Instantiate(playerAvatarPrefab));
             GameObject currentAvatar = playerAvatars[playerAvatars.Count - 1];
             currentAvatar.transform.SetParent(GameObject.Find("Canvas").transform);
-            currentAvatar.transform.GetChild(0).GetComponent<RawImage>().texture = p.playerPhoto;
-            currentAvatar.transform.GetChild(2).GetComponent<Text>().text = p.playerName;
+            currentAvatar.transform.GetChild(0).GetComponent<RawImage>().texture = p.PlayerPhoto;
+            currentAvatar.transform.GetChild(2).GetComponent<Text>().text = p.PlayerName;
         }
         arrangeAvatars();
     }
