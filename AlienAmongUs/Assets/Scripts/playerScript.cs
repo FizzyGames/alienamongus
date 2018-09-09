@@ -76,7 +76,11 @@ public class playerScript : MonoBehaviour {
         PhoneRef.RegisterCmdHandler<messageSetName>("setName", onSetName);
         PhoneRef.RegisterCmdHandler<messagePoison>("poison", onPoison);
         PhoneRef.RegisterCmdHandler<messageRequestScan>("requestScan", onRequestScan);
+<<<<<<< HEAD
+        PhoneRef.RegisterCmdHandler<messageReceivePhoto>("receivePhoto", onReceivePhoto);
+=======
         PhoneRef.RegisterCmdHandler<messageSetName>("_hft_setname_", onSetName);
+>>>>>>> origin/master
         PoisonTimer = POISON_TURNS_TIMER_RESET;
     }
 
@@ -148,6 +152,29 @@ public class playerScript : MonoBehaviour {
         Manager.requestID(ID, data.idToScan);
         if (IsAlien && data.scanType == 1)
             IsPoisoning = true;
+        //update the main screen to reflect this
+    }
+
+    private class messageReceivePhoto
+    {
+        public string dataURL;
+    };
+
+    private static string s_dataUrlHeader = "data:image/png;base64,";
+
+    private void onReceivePhoto(messageReceivePhoto data)
+    {
+        if (data.dataURL != null)
+        {
+            Debug.Log(data.dataURL);
+            Byte[] temp = Convert.FromBase64String(data.dataURL.Substring(s_dataUrlHeader.Length));
+            Texture2D tex = new Texture2D(4, 4);
+            tex.LoadImage(temp);
+            PlayerPhoto = tex;
+        }
+        else
+            Debug.Log("dataurl is empty bitch");
+
         //update the main screen to reflect this
     }
 
