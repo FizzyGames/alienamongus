@@ -139,7 +139,7 @@ public class gm : MonoBehaviour
                 _matchesInProgress.Remove(match.Key);
             }
         }
-        if(playerScript.Type == playerScript.PlayerType.Alien)
+        if (playerScript.Type == playerScript.PlayerType.Alien)
         {
             gameOver(true);
         }
@@ -147,7 +147,7 @@ public class gm : MonoBehaviour
 
     private void gameOver(bool humansWin)
     {
-        
+
     }
 
     public void onSuccessfulMatch(int player1, int player2)
@@ -201,11 +201,12 @@ public class gm : MonoBehaviour
         //requestingPlayer.PhoneRef.SendCmd("idDelivery", new sendIDMessageTP(target, this));//THIS IS THE FUNCTION TO SEND A COMMAND TO THE PHONE, idDelivery is what the phone is listening for
     }
 
-    public void assignID(playerScript target) {
+    public void assignID(playerScript target)
+    {
         target.PhoneRef.SendCmd("assignID", new messageAssignID(target.ID));
 
     }
-    
+
 
 
     public void sendTargets(int requester, List<int> targets)
@@ -318,19 +319,20 @@ public class gm : MonoBehaviour
         {
             successState = state;
         }
-    private class messageAssignID
-    {
-        public messageAssignID(int _ID)
+        private class messageAssignID
         {
+            public messageAssignID(int _ID)
+            {
 
-            ID = _ID;
+                ID = _ID;
 
+            }
+
+            public int ID;
         }
 
-        public int ID;
+
+        #endregion
+        //END COMMANDS TO BE SENT TO THE PHONE
     }
-
-
-    #endregion
-    //END COMMANDS TO BE SENT TO THE PHONE
 }

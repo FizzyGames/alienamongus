@@ -53,6 +53,8 @@ public class playerScript : MonoBehaviour {
         }
     }
 
+    public bool IsRequesting { get; set; }
+
     public bool IsAlive { get { return State != PlayerState.Dead; } }
     public bool IsDown { get { return State != PlayerState.Alive; } }
     public bool IsAlien { get { return Type == PlayerType.Alien; } }
