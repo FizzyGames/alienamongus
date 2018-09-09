@@ -138,9 +138,10 @@ function gameStart() {
 }
 var keypadVal = 0;
 
-function closeID() {
+function closeIDPage() {
     document.getElementById("idPage").style.display = "none";
     document.getElementById("numpad").style.display = "block";
+    document.getElementById("allTabs").style.display = "block";
 }
 
 var profilePic
