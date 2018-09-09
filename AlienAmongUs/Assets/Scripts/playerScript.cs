@@ -56,7 +56,20 @@ public class playerScript : MonoBehaviour {
         }
     }
 
-    public bool IsRequesting { get; set; }
+    private bool _isRequesting;
+    public bool IsRequesting
+    {
+        get
+        {
+            return _isRequesting;
+        }
+        set
+        {
+            _isRequesting = value;
+            if (!_isRequesting)
+                RequestingTimer = 0;
+        }
+    }
 
     public bool IsAlive { get { return State != PlayerState.Dead; } }
     public bool IsDown { get { return State != PlayerState.Alive; } }
@@ -219,6 +232,7 @@ PhoneRef.RegisterCmdHandler<messageAccuse>("accuse", onAccuse);
                 death();
             }
         }
+        RequestingTimer = 0;
     }
 
     public void serverTick(float deltaTime)
