@@ -72,10 +72,10 @@ var randInt = function(range) {
 // This will generate a 'move' event in the corresponding
 // NetPlayer object in the game.
 var sendMoveCmd = function(position, target) {
-  client.sendCmd('move', {
-    x: position.x / target.clientWidth,
-    y: position.y / target.clientHeight,
-  });
+  //client.sendCmd('move', {
+   // x: position.x / target.clientWidth,
+   // y: position.y / target.clientHeight,
+  //});
 };
 
 // Sends a request for all the players' data
@@ -127,12 +127,11 @@ function hideonstart() {
 function waitForGameStart() {
     document.getElementById("welcomeScreen").style.display = "none";
     document.getElementById("waitingForGameStart").style.display = "block";
-    setTimeout(function () {
-        gameStart()
-    }, 2000);
+
 }
 
 function gameStart() {
+    document.getElementById("welcomeScreen").style.display = "none";
     document.getElementById("waitingForGameStart").style.display = "none";
     document.getElementById("allTabs").style.display = "block";
     document.getElementById("numpad").style.display = "block";
@@ -147,7 +146,39 @@ function closeID() {
 var profilePic
 function openCamera(pic) {
     //fix this later plx
-    profilePic = pic;
+    //profilePic = pic;
+
+    // make image to load picture
+    var img = new Image();
+    // call function when done loading
+    img.onload = function () {
+        // create a 256x256 canvas
+        var canvas = document.createElement("canvas");
+        canvas.width = 256;
+        canvas.height = 256;
+        var ctx = canvas.getContext("2d");
+        // scale the image using a css "cover" algo
+        var aspect = img.width / img.height;
+        var dstHeight = 256
+        var dstWidth = dstHeight * aspect;
+        if (dstWidth < 256) {
+            dstWidth = 256;
+            dstHeight = dstWidth / aspect;
+        }
+        var dstX = (256 - dstWidth) / 2;
+        var dstY = (256 - dstHeight) / 2;
+        ctx.drawImage(img, dstX, dstY, dstWidth, dstHeight);
+        // send the image as a dataUrl to theg game
+        client.sendCmd('receivePhoto', {
+            dataURL: canvas.toDataURL(),
+        });
+        // tell the browser we're done
+        URL.revokeObjectURL(img.src);
+    };
+    // load the image
+    img.src = URL.createObjectURL(pic);
+    
+
     waitForGameStart();
 
 }
@@ -253,11 +284,27 @@ client.addEventListener('assignID', function (data) {
     ID = data.ID;
     document.getElementById("idref1").innerHTML = "Your ID is " + ID;
     document.getElementById("idref2").innerHTML = "Your ID is " + ID;
+
+});
+
+var type
+var state
+
+client.addEventListener('assignType', function (data) {
+    type = data.type;
+    gameStart();
+});
+
+client.addEventListener('assignState', function (data) {
+    state = data.state;
 });
 
 
-client.addEventListener('validID', function (data) {//this is when you send a code and the pc says yes this is valid ONLY HAPPENS FOR THE FIRST PERSON TO INTERACT, THE SECOND PERSON goes straight to IDDELIVERY
-    if (data.valid) {
+
+
+client.addEventListener('idRequestCallback', function (data) {//this is when you send a code and the pc says yes this is valid ONLY HAPPENS FOR THE FIRST PERSON TO INTERACT, THE SECOND PERSON goes straight to IDDELIVERY
+    if (data.successState == "Success") {
+        document.getElementById("scannedName").innerHTML = data.playerName;
         document.getElementById("waitingForPlayer").style.display = "none";
         document.getElementById("numpad").style.display = "block";
 

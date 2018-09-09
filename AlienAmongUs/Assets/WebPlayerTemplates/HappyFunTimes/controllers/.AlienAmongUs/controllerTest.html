@@ -68,8 +68,9 @@
           <div id="input" class="hft-instruction hft-fullcenter">
               <div id="welcomeScreen" style="z-index: 4200">
                   "Please create your ID by taking a photo"<br />
-                  <a id="cameraButton" onclick="openCamera()" class="waves-effect waves-light btn-large">Camera</a>
-                  <input type="file" id="photoRef" accept="image/*" name = "Take Selfie" capture="camera" onchange="openCamera(this.File)">
+                  <input type="file" id="photoRef" style="display: none" accept="image/*" name = "Take Selfie" capture="camera" onchange="openCamera(files[0])">
+                  <a id="cameraButton" onclick="document.getElementById('photoRef').click();" class="waves-effect waves-light btn-large">Camera</a>
+                  
               </div>
               <div id="waitingForGameStart" style="z-index: 4200">
                   <b>Waiting for game to start...</b><br />

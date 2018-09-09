@@ -205,6 +205,16 @@ public class gm : MonoBehaviour
         GameObject.FindObjectOfType<databaseDisplayScript>().glowPlayer(player2);
         player1.OnScan(player2);
         player2.OnScan(player1);
+        if (player1.IsPoisoning && player1.IsAlien)
+        {
+            poison(player2.ID);
+            player1.IsPoisoning = false;
+        }
+        if (player2.IsPoisoning && player2.IsAlien)
+        {
+            poison(player1.ID);
+            player2.IsPoisoning = false;
+        }
         checkGameState();
     }
 
