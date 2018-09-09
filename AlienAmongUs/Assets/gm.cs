@@ -84,9 +84,11 @@ public class gm : MonoBehaviour
         }
         if (stillStandingHumans <= 1 && aliveAlienPlayers >= 1)
             gameOver(false);
+        else if (aliveHumanPlayers == 0 && aliveAlienPlayers > 0)
+            gameOver(false);
         else if (aliveAlienPlayers == 0)
             gameOver(true);
-        else if(aliveAlienPlayers == 0 && aliveHumanPlayers == 0)
+        else if (aliveAlienPlayers == 0 && aliveHumanPlayers == 0)
             gameOver(false);
     }
 
@@ -113,8 +115,15 @@ public class gm : MonoBehaviour
             assignID(item);
             assignState(item);
         }
-        int randomIndex = UnityEngine.Random.Range(0, _idToPlayer.Count);
-        _idToPlayer.ElementAt(randomIndex).Value.Type = playerScript.PlayerType.Alien;
+        List<int> currPlayers = new List<int>();
+        currPlayers.AddRange(_idToPlayer.Keys);
+        int alienCount = currPlayers.Count / 12 + 1;
+        for (int i = 0; i < alienCount; i++)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, currPlayers.Count);
+            _idToPlayer[currPlayers[randomIndex]].Type = playerScript.PlayerType.Alien;
+            currPlayers.Remove(randomIndex);
+        }
         foreach (var idToPlayer in _idToPlayer)
         {
             assignType(idToPlayer.Value);

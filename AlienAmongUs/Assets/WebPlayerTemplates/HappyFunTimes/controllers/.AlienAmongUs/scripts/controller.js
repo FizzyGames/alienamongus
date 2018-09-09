@@ -164,21 +164,22 @@ function openCamera(pic) {
     var img = new Image();
     // call function when done loading
     img.onload = function () {
+		var width = 128;
         // create a 256x256 canvas
         var canvas = document.createElement("canvas");
-        canvas.width = 256;
-        canvas.height = 256;
+        canvas.width = width;
+        canvas.height = width;
         var ctx = canvas.getContext("2d");
         // scale the image using a css "cover" algo
         var aspect = img.width / img.height;
-        var dstHeight = 256
+        var dstHeight = width
         var dstWidth = dstHeight * aspect;
-        if (dstWidth < 256) {
-            dstWidth = 256;
+        if (dstWidth < width) {
+            dstWidth = width;
             dstHeight = dstWidth / aspect;
         }
-        var dstX = (256 - dstWidth) / 2;
-        var dstY = (256 - dstHeight) / 2;
+        var dstX = (width - dstWidth) / 2;
+        var dstY = (width - dstHeight) / 2;
         ctx.drawImage(img, dstX, dstY, dstWidth, dstHeight);
         // send the image as a dataUrl to theg game
         client.sendCmd('receivePhoto', {
