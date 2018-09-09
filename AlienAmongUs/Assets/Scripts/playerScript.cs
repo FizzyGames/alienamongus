@@ -22,6 +22,7 @@ public class playerScript : MonoBehaviour {
 	public HappyFunTimes.NetPlayer PhoneRef { get; set; }
     public gm Manager { get; set; }
     public List<int> CurrentRequesters { get; set; }
+    public bool IsPoisoning { get; set; }
     private PlayerState _state;
     private PlayerType _type;
     public const int POISON_TURNS_TIMER_RESET = 2;
@@ -139,12 +140,14 @@ public class playerScript : MonoBehaviour {
     private class messageRequestScan
     {
         public int idToScan = 0;
+        public int scanType = 0;
     };
 
     private void onRequestScan(messageRequestScan data)
     {
         Manager.requestID(ID, data.idToScan);
-
+        if (IsAlien && data.scanType == 1)
+            IsPoisoning = true;
         //update the main screen to reflect this
     }
 
