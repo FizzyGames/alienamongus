@@ -200,6 +200,16 @@ public class gm : MonoBehaviour
     {
         GameIsOver = true;
         HumansWon = humansWin;
+        int temp2 = 0;
+        if (humansWin)
+            temp2 = 1;
+        foreach(playerScript p in _idToPlayer.Values)
+        {
+            p.PhoneRef.SendCmd("gameOver", new MessageGameOver(temp2));
+           
+
+        }
+
     }
 
     public void onSuccessfulMatch(int player1, int player2)
@@ -459,6 +469,16 @@ public class gm : MonoBehaviour
         {
             state = _state;
         }
+    }
+
+    private class MessageGameOver
+    {
+        public MessageGameOver(int _humansWin)
+        {
+            humansWin = _humansWin;
+        }
+
+        public int humansWin;
     }
     #endregion
     //END COMMANDS TO BE SENT TO THE PHONE
