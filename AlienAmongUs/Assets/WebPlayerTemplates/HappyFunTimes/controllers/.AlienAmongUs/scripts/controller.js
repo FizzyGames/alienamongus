@@ -335,6 +335,10 @@ client.addEventListener('targetDelivery', function(cmd) {
 		currElement.innerHTML = player.playerName;
 		currElement.style.color = player.playerStatus != "Dead" ? "green" : "red";
 		accusationMenu.append(currElement);
+
+    var image = new Image();
+    image.src = player.playerPhoto;
+    currElement.append(image);
 	})
       console.log("is this thing on");
   });
