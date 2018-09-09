@@ -37,6 +37,8 @@ var misc = sampleUI.misc;
 var mobileHacks = sampleUI.mobileHacks;
 var strings = sampleUI.strings;
 var touch = sampleUI.touch;
+var alienKillTimerCounter = 0;
+var alienKillTimerStart = true;
 
 var globals = {
     debug: false,
@@ -181,7 +183,16 @@ function openCamera(pic) {
 
 }
 
+function alienKillTimer()
+{
+  alienKillTimerCounter = new Date().getTime();
+}
 
+function alienKillTimerReset()
+{
+  console.log(new Date().getTime() - alienKillTimerCounter);
+  alienKillTimerCounter = 0;
+}
 
 function myFunction(num) {
 
@@ -200,9 +211,22 @@ function myFunction(num) {
         if (keypadVal>99){ 
             document.getElementById("numText").innerHTML = "";
             keypadVal = 0;
-            client.sendCmd('requestScan', {
+            if(new Date().getTime() - alienKillTimerCounter > 300)
+            {
+              client.sendCmd('requestScan', {
                 idToScan: parseInt(keypadVal),
-            });
+                scanType: 1;
+              });
+
+            }
+            else
+            {
+              client.sendCmd('requestScan', {
+                idToScan: parseInt(keypadVal),
+                scanType: 0;
+              });
+            }
+            alienKillTimerReset()
             document.getElementById("waitingForPlayer").style.display = "block";
             document.getElementById("numpad").style.display = "none";
             document.getElementById("allTabs").style.display = "none";
@@ -215,10 +239,25 @@ function myFunction(num) {
         document.getElementById("numText").innerHTML = keypadVal
 
     }
-        
-
 }
 
+function holdit(btn, action, start, speedup) {
+    var t;
+
+    var repeat = function () {
+        action();
+        t = setTimeout(repeat, start);
+        start = start / speedup;
+    }
+
+    btn.mousedown = function() {
+        repeat();
+    }
+
+    btn.mouseup = function () {
+        clearTimeout(t);
+    }
+};
 
 function CancelScan()
 {
@@ -283,7 +322,7 @@ client.addEventListener('idRequestCallback', function (data) {//this is when you
 });
 // Update accusable list
 client.addEventListener('targetDelivery', function(cmd) {
-	document.getElementById("button33").innerHTML = "received";
+	//document.getElementById("button33").innerHTML = "received";
 
     var accusationMenu = $('#accusation_menu');
     jQuery.each(cmd["_messages"], function(index, player) {
