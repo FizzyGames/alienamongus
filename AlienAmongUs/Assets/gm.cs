@@ -83,7 +83,7 @@ public class gm : MonoBehaviour
             gameOver(false);
         else if (aliveAlienPlayers == 0)
             gameOver(true);
-        else
+        else if(aliveAlienPlayers == 0 && aliveHumanPlayers == 0)
             gameOver(false);
     }
 
