@@ -83,7 +83,7 @@ var sendAccusationRequest = function()
 };
 
 function setAccusationMenu() {
-    var accusationMenu = $('#accusation_menu');
+  var accusationMenu = $('#accusation_menu');
 	accusationMenu.html("");
 	sendAccusationRequest();
 }
@@ -102,12 +102,13 @@ var color =  'rgb(' + randInt(256) + "," + randInt(256) + "," + randInt(256) + "
 colorElem.style.backgroundColor = color;
 
 // Send a message to the game when the screen is touched
+/*
 inputElem.addEventListener('pointermove', function(event) {
   var position = input.getRelativeCoordinates(event.target, event);
   sendMoveCmd(position, event.target);
   event.preventDefault();
 });
-
+*/
 
 
 
@@ -236,8 +237,9 @@ client.addEventListener('validID', function (data) {//this is when you send a co
 // Update accusable list
 client.addEventListener('targetDelivery', function(cmd) {
 	document.getElementById("button33").innerHTML = "received";
+
     var accusationMenu = $('#accusation_menu');
-	jQuery.each(cmd["_messages"], function(index, player) {
+    jQuery.each(cmd["_messages"], function(index, player) {
 		var currElement = document.createElement('a');
 		currElement.setAttribute('class', 'waves-effect waves-light btn col s6'); 
 		let pID = player.playerID;
@@ -245,7 +247,9 @@ client.addEventListener('targetDelivery', function(cmd) {
 		currElement.innerHTML = player.playerName;
 		currElement.style.color = player.playerStatus != "Dead" ? "green" : "red";
 		accusationMenu.append(currElement);
-	})});
+	})
+      console.log("is this thing on");
+  });
 
 
 $(document).ready(function(){

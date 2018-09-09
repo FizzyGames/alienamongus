@@ -95,15 +95,18 @@
                       <b>Your ID is XXX</b>
                   </div>
 
-                      <!--<a id = "abutton" onclick="myFunction()" class="waves-effect waves-light btn">button</a>
-        <a id="anotherbutton" class="waves-effect waves-light btn">f;lasdjkfjasd</a>
-            -->
+<<<<<<< HEAD
                   <p id="button33">testing</p>
                   <div id="accusation_menu"></div>
 
                   <!--<a id = "abutton" onclick="myFunction()" class="waves-effect waves-light btn">button</a>
             <a id="anotherbutton" class="waves-effect waves-light btn">f;lasdjkfjasd</a>
                 -->
+=======
+                      <!--<a id = "abutton" onclick="myFunction()" class="waves-effect waves-light btn">button</a>
+        <a id="anotherbutton" class="waves-effect waves-light btn">f;lasdjkfjasd</a>
+            -->
+>>>>>>> 15953e1e0b969e648602f13e5d1bd536bf3b1e51
 
                   </div>
               <div id="waitingForPlayer" style="z-index: 4200">
