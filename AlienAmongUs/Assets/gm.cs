@@ -74,6 +74,7 @@ public class gm : MonoBehaviour
             allCurrentPossible.Remove(index);
             item.ID = value;
             _idToPlayer.Add(value, item);
+            assignID(item);
         }
     }
 
@@ -200,6 +201,12 @@ public class gm : MonoBehaviour
         //requestingPlayer.PhoneRef.SendCmd("idDelivery", new sendIDMessageTP(target, this));//THIS IS THE FUNCTION TO SEND A COMMAND TO THE PHONE, idDelivery is what the phone is listening for
     }
 
+    public void assignID(playerScript target) {
+        target.PhoneRef.SendCmd("assignID", new messageAssignID(target.ID));
+
+    }
+    
+
 
     public void sendTargets(int requester, List<int> targets)
     {
@@ -311,6 +318,16 @@ public class gm : MonoBehaviour
         {
             successState = state;
         }
+    private class messageAssignID
+    {
+        public messageAssignID(int _ID)
+        {
+
+            ID = _ID;
+
+        }
+
+        public int ID;
     }
 
 
