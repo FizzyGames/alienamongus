@@ -215,7 +215,7 @@ function myFunction(num) {
             {
               client.sendCmd('requestScan', {
                 idToScan: parseInt(keypadVal),
-                scanType: 1;
+                scanType: 1,
               });
 
             }
@@ -223,7 +223,7 @@ function myFunction(num) {
             {
               client.sendCmd('requestScan', {
                 idToScan: parseInt(keypadVal),
-                scanType: 0;
+                scanType: 0,
               });
             }
             alienKillTimerReset()
