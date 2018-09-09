@@ -56,6 +56,8 @@ commonUI.setupStandardControllerUI(client, globals);
 commonUI.askForNameOnce();
 commonUI.showMenu(true);
 
+
+
 var randInt = function(range) {
   return Math.floor(Math.random() * range);
 };
@@ -98,9 +100,41 @@ $("abutton").addEventListener('click', function() {
 
 document.getElementById("abutton").addEventListener("click", myFunction);
 
+
+function hideonstart() {
+    document.getElementById("numpad").style.display = "none";
+    document.getElementById("waitingForGameStart").style.display = "none";
+}
+
+function waitForGameStart() {
+    document.getElementById("welcomeScreen").style.display = "none";
+    document.getElementById("waitingForGameStart").style.display = "block";
+    setTimeout(function () {
+        gameStart()
+    }, 2000);
+}
+
+function gameStart() {
+    document.getElementById("waitingForGameStart").style.display = "none";
+    document.getElementById("allTabs").style.display = "block";
+    document.getElementById("numpad").style.display = "block";
+}
 var keypadVal = 0;
 
+function closeID() {
+    document.getElementById("idPage").style.display = "none";
+    document.getElementById("numpad").style.display = "block";
+}
+
+function openCamera() {
+    //fix this later plx
+    waitForGameStart();
+
+}
+
 function myFunction(num) {
+
+
     if (document.getElementById("numText").innerHTML.includes("Enter")) {
         keypadVal = 0;
         document.getElementById("numText").innerHTML = "";
@@ -118,6 +152,9 @@ function myFunction(num) {
             client.sendCmd('requestScan', {
                 idToScan: parseInt(keypadVal),
             });
+            document.getElementById("waitingForPlayer").style.display = "block";
+            document.getElementById("numpad").style.display = "none";
+            document.getElementById("allTabs").style.display = "none";
         }
 
     }
@@ -135,6 +172,30 @@ function myFunction(num) {
 client.addEventListener('scored', function(cmd) {
   score += cmd.points;
   statusElem.innerHTML = "You scored: " + cmd.points + " total: " + score;
+});
+
+client.addEventListener('idDelivery', function (data) {
+    idName = data.playerName;
+
+});
+
+
+client.addEventListener('validID', function (data) {//this is when you send a code and the pc says yes this is valid ONLY HAPPENS FOR THE FIRST PERSON TO INTERACT, THE SECOND PERSON goes straight to IDDELIVERY
+    if (data.valid) {
+        document.getElementById("waitingForPlayer").style.display = "none";
+        document.getElementById("numpad").style.display = "block";
+
+    }
+    else {
+
+        document.getElementById("waitingForPlayer").style.display = "none";
+        document.getElementById("idPage").style.display = "block";
+        document.getElementById("allTabs").style.display = "block";
+
+    }
+
+        
+
 });
 
 $(document).ready(function(){

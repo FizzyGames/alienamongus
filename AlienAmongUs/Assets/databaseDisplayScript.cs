@@ -37,13 +37,80 @@ public class databaseDisplayScript : MonoBehaviour {
 
     public void arrangeAvatars()
     {
-        if (playerAvatars.Count <= 7) { 
-        for (int i = 0; i < playerAvatars.Count; i++)
+        if (playerAvatars.Count <= 7)
         {
-            playerAvatars[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(250 * (i - 3), 125, 0);
+            for (int i = 0; i < playerAvatars.Count; i++)
+            {
+                playerAvatars[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(250 * (i - 3), 125, 0);
 
 
+            }
+        }
+        else if (playerAvatars.Count <= 14)
+        {
+            for (int i = 0; i < playerAvatars.Count; i++)
+            {
+                if(i>=7)
+                    playerAvatars[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(250 * (i - 10), -125, 0);
+                else
+                    playerAvatars[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(250 * (i - 3), 125, 0);
+
+
+            }
+        }
+        else if (playerAvatars.Count <= 21)
+        {
+            for (int i = 0; i < playerAvatars.Count; i++)
+            {       
+                if (i < 7)
+                    playerAvatars[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(250 * (i - 3), 375, 0);
+                else if (i < 14)
+                    playerAvatars[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(250 * (i - 10), 125, 0);
+                else if (i < 21)
+                    playerAvatars[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(250 * (i - 10), -125, 0);
+
+            }
+        }
+        else if (playerAvatars.Count <= 28)
+        {
+            for (int i = 0; i < playerAvatars.Count; i++)
+            {
+                if (i < 7)
+                    playerAvatars[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(250 * (i - 3), 375, 0);
+                else if (i < 14)
+                    playerAvatars[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(250 * (i - 10), 125, 0);
+                else if (i < 21)
+                    playerAvatars[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(250 * (i - 17), -125, 0);
+                else if (i < 28)
+                    playerAvatars[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(250 * (i - 21), -375, 0);
+
+            }
+        }
+
+        foreach (GameObject p in playerAvatars)
+        {
+            p.GetComponent<raiseAndLowerScript>().startPos = p.GetComponent<RectTransform>().anchoredPosition;
         }
     }
+
+    public void glowPlayer(playerScript p)
+    {
+        int index = players.FindIndex(x=>x.Equals(p.gameObject));
+        playerAvatars[index].GetComponent<raiseAndLowerScript>().beginRise();
     }
+
+    public void killPlayer(playerScript p)
+    {
+        int index = players.FindIndex(x => x.Equals(p.gameObject));
+        playerAvatars[index].transform.GetChild(1).GetComponent<RawImage>().color = Color.red;
+
+    }
+
+    public void revealKiller(playerScript p)
+    {
+        int index = players.FindIndex(x => x.Equals(p.gameObject));
+        playerAvatars[index].transform.GetChild(1).GetComponent<RawImage>().color = Color.red;
+    }
+
+    
 }

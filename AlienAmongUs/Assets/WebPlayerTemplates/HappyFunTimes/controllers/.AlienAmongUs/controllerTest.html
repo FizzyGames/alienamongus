@@ -50,43 +50,63 @@
 </head>
 <body touch-action="none">
 <div id="hft-everything">
-          <div class="row">
-              <div class="col s12">
-                  <ul class="tabs">
-                      <li class="tab"><a href="#abutton">Test 1</a></li>
-                      <li class="tab"><a href="#anotherbutton">Test 2</a></li>
-                      <li class="tab"><a href="#test3">Test 3</a></li>
-                      <li class="tab"><a href="#test4">Test 4</a></li>
-                  </ul>
-              </div>
-          </div>
+    <div id="allTabs" class="row" style = "z-index: 4000">
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab"><a href="#numpad">Scan</a></li>
+                <li class="tab"><a href="#anotherbutton">Accuse</a></li>
+                <li class="tab"><a href="#test3">Info</a></li>
+            </ul>
+        </div>
+    </div>
   <div id="hft-content">
+
     <div id="gamearea" class="fixheight">
       <h1 id="gamestatus">status</h1>
       <div id="display" class="hft-fullcenter fixheight">
 
-        <div id="input" class="hft-instruction hft-fullcenter">Touch to Move
-          <div  style = "z-index: 4200">
-              <textarea id = "numText" readonly rows="1" cols="6">
-                  Enter ID Here
-              </textarea> 
-          <a id = "1button" onclick="myFunction(1)" class="waves-effect waves-light btn-large">1</a>
-              <a id="2button" onclick="myFunction(2)" class="waves-effect waves-light btn-large">2</a>
-              <a id="3button" onclick="myFunction(3)" class="waves-effect waves-light btn-large">3</a> <br/>
-              <a id="4button" onclick="myFunction(4)" class="waves-effect waves-light btn-large">4</a>
-              <a id="5button" onclick="myFunction(5)" class="waves-effect waves-light btn-large">5</a>
-              <a id="6button" onclick="myFunction(6)" class="waves-effect waves-light btn-large">6</a> <br />
-              <a id="7button" onclick="myFunction(7)" class="waves-effect waves-light btn-large">7</a>
-              <a id="8button" onclick="myFunction(8)" class="waves-effect waves-light btn-large">8</a>
-              <a id="9button" onclick="myFunction(9)" class="waves-effect waves-light btn-large">9</a> <br />
-              <a id="backspacebutton" onclick="myFunction(99)" class="waves-effect waves-light btn-large">X</a>
-              <a id="0button" onclick="myFunction(0)" class="waves-effect waves-light btn-large">0</a>
-              <a id="confirmbutton" onclick="myFunction(88)" class="waves-effect waves-light btn-large">✓</a> <br />
+          <div id="input" class="hft-instruction hft-fullcenter">
+              <div id="welcomeScreen" style="z-index: 4200">
+                  "Please create your ID by taking a photo"<br />
+                  <a id="cameraButton" onclick="openCamera()" class="waves-effect waves-light btn-large">Camera</a>
+              </div>
+              <div id="waitingForGameStart" style="z-index: 4200">
+                  <b>Waiting for game to start...</b><br />
+              </div>
+              <div id="numpad" style="z-index: 4200">
+                  <textarea id="numText" readonly rows="1" cols="6">
+                      Enter ID Here
+                  </textarea>
+                  <a id="1button" onclick="myFunction(1)" class="waves-effect waves-light btn-large">1</a>
+                  <a id="2button" onclick="myFunction(2)" class="waves-effect waves-light btn-large">2</a>
+                  <a id="3button" onclick="myFunction(3)" class="waves-effect waves-light btn-large">3</a> <br />
+                  <a id="4button" onclick="myFunction(4)" class="waves-effect waves-light btn-large">4</a>
+                  <a id="5button" onclick="myFunction(5)" class="waves-effect waves-light btn-large">5</a>
+                  <a id="6button" onclick="myFunction(6)" class="waves-effect waves-light btn-large">6</a> <br />
+                  <a id="7button" onclick="myFunction(7)" class="waves-effect waves-light btn-large">7</a>
+                  <a id="8button" onclick="myFunction(8)" class="waves-effect waves-light btn-large">8</a>
+                  <a id="9button" onclick="myFunction(9)" class="waves-effect waves-light btn-large">9</a> <br />
+                  <a id="backspacebutton" onclick="myFunction(99)" class="waves-effect waves-light btn-large">X</a>
+                  <a id="0button" onclick="myFunction(0)" class="waves-effect waves-light btn-large">0</a>
+                  <a id="confirmbutton" onclick="myFunction(88)" class="waves-effect waves-light btn-large">✓</a> <br />
+                  <b>Your ID is XXX</b>
+                  <!--<a id = "abutton" onclick="myFunction()" class="waves-effect waves-light btn">button</a>
+            <a id="anotherbutton" class="waves-effect waves-light btn">f;lasdjkfjasd</a>
+                -->
 
-          <a id = "abutton" onclick="myFunction()" class="waves-effect waves-light btn">button</a>
-          <a id="anotherbutton" class="waves-effect waves-light btn">f;lasdjkfjasd</a>
-        </div>
-        </div>
+              </div>
+              <div id="waitingForPlayer" style="z-index: 4200">
+                  <b>Waiting for ID Code Entry</b><br />
+                  <b>Your ID is XXX</b>
+                  
+              </div>
+
+              <div id="idPage" style="z-index: 4200">
+                  <b>Picture here</b><br />
+                  <b>Name Here</b>
+                  <a id="okID" onclick="closeIDPage" class="waves-effect waves-light btn-large">OK</a>
+              </div>
+          </div>
 
 
       </div>
@@ -127,6 +147,20 @@
 <script src="/sample-ui/sample-ui.js"></script>
 <script src="scripts/controller.js"></script>
 <script src="/3rdparty/.materialize/js/materialize.min.js"></script>
+<script>
+    
+    document.getElementById("allTabs").style.display = "none";
+    document.getElementById("numpad").style.display = "none";
+    document.getElementById("waitingForPlayer").style.display = "none";
+    document.getElementById("waitingForGameStart").style.display = "none";
+
+    
+
+</script> 
+
+<script> 
+    document.getElementById("idPage").style.display = "none";
+</script> 
 </body>
 </html>
 
