@@ -242,23 +242,12 @@ function myFunction(num) {
     }
 }
 
-function holdit(btn, action, start, speedup) {
-    var t;
-
-    var repeat = function () {
-        action();
-        t = setTimeout(repeat, start);
-        start = start / speedup;
-    }
-
-    btn.mousedown = function() {
-        repeat();
-    }
-
-    btn.mouseup = function () {
-        clearTimeout(t);
-    }
-};
+function accuseUser(accuseID)
+{
+  client.sendCmd('accuse', {
+    idToAccuse: parseInt(accuseID),
+  });
+}
 
 function CancelScan()
 {
