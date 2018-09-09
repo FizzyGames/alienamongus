@@ -329,17 +329,24 @@ client.addEventListener('targetDelivery', function(cmd) {
 
     var accusationMenu = $('#accusation_menu');
     jQuery.each(cmd["_messages"], function(index, player) {
-		var currElement = document.createElement('a');
-		currElement.setAttribute('class', 'waves-effect waves-light btn col s6'); 
-		let pID = player.playerID;
-		currElement.setAttribute('onClick', 'accuseUser('+player.playerID+')');
-		currElement.innerHTML = player.playerName;
-		currElement.style.color = player.playerStatus != "Dead" ? "green" : "red";
-		accusationMenu.append(currElement);
-
+      /*
     var image = new Image();
     image.src = player.playerPhoto;
     currElement.append(image);
+    */
+		var currElement = document.createElement('img');
+		currElement.setAttribute('class', 'waves-effect waves-light btn col s4'); 
+    currElement.setAttribute('src', player.playerPhoto);
+    currElement.setAttribute('style', 'width:128px; height:128px')
+		let pID = player.playerID;
+		currElement.setAttribute('onClick', 'accuseUser('+player.playerID+')');
+		
+		currElement.style.color = player.playerStatus != "Dead" ? "green" : "red";
+		accusationMenu.append(currElement);
+    currElement = document.createElement('p');
+    currElement.innerHTML = player.playerName;
+    //currElement.setAttribute('p', player.playerName);
+    accusationMenu.append(currElement);
 	})
       console.log("is this thing on");
   });
