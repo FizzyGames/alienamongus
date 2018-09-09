@@ -140,6 +140,11 @@ function gameStart() {
     document.getElementById("waitingForGameStart").style.display = "none";
     document.getElementById("allTabs").style.display = "block";
     document.getElementById("numpad").style.display = "block";
+    var accusationMenu = $('#accusation_menu');
+	accusationMenu.html("");
+	var numpadElement = document.getElementById("tabParent");
+	var instance = M.Tabs.getInstance(numpadElement);
+	instance.select('numpadTab');
 }
 var keypadVal = 0;
 
@@ -356,6 +361,7 @@ client.addEventListener('gameOver', function (data) {
 client.addEventListener('idRequestCallback', function (data) {//this is when you send a code and the pc says yes this is valid ONLY HAPPENS FOR THE FIRST PERSON TO INTERACT, THE SECOND PERSON goes straight to IDDELIVERY
     if (data.successState == "Success") {
         document.getElementById("scannedName").innerHTML = data.playerName;
+
         var firstDigit = data.playerID%10;
         var secondDigit = Math.floor(data.playerID/10)%10;
         var thirdDigit = Math.floor(data.playerID/100)-1;
@@ -365,6 +371,8 @@ client.addEventListener('idRequestCallback', function (data) {//this is when you
         
 
         document.getElementById("ScannedImage").innerHTML = "<img src=" + data.playerPhoto + ">";
+
+
         document.getElementById("waitingForPlayer").style.display = "none";
         document.getElementById("idPage").style.display = "block";
 
