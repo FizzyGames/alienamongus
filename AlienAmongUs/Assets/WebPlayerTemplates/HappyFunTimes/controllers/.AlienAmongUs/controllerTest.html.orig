@@ -69,9 +69,8 @@
           <div id="input" class="hft-instruction hft-fullcenter">
               <div id="welcomeScreen" style="z-index: 4200">
                   "Please create your ID by taking a photo"<br />
-                  <input type="file" id="photoRef" style="display: none" accept="image/*" name = "Take Selfie" capture="camera" onchange="openCamera(files[0])">
-                  <a id="cameraButton" onclick="document.getElementById('photoRef').click();" class="waves-effect waves-light btn-large">Camera</a>
-                  
+                  <a id="cameraButton" onclick="openCamera()" class="waves-effect waves-light btn-large">Camera</a>
+                  <input type="file" id="photoRef" accept="image/*" name = "Take Selfie" capture="camera" onchange="openCamera(this.File)">
               </div>
               <div id="waitingForGameStart" style="z-index: 4200">
                   <b>Waiting for game to start...</b><br />
@@ -96,15 +95,18 @@
                       <b>Your ID is XXX</b>
                   </div>
 
-                      <!--<a id = "abutton" onclick="myFunction()" class="waves-effect waves-light btn">button</a>
-        <a id="anotherbutton" class="waves-effect waves-light btn">f;lasdjkfjasd</a>
-            -->
+<<<<<<< HEAD
                   <p id="button33">testing</p>
                   <div id="accusation_menu"></div>
 
                   <!--<a id = "abutton" onclick="myFunction()" class="waves-effect waves-light btn">button</a>
             <a id="anotherbutton" class="waves-effect waves-light btn">f;lasdjkfjasd</a>
                 -->
+=======
+                      <!--<a id = "abutton" onclick="myFunction()" class="waves-effect waves-light btn">button</a>
+        <a id="anotherbutton" class="waves-effect waves-light btn">f;lasdjkfjasd</a>
+            -->
+>>>>>>> 15953e1e0b969e648602f13e5d1bd536bf3b1e51
 
                   </div>
               <div id="waitingForPlayer" style="z-index: 4200">

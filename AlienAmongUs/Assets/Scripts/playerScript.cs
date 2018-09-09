@@ -75,9 +75,20 @@ public class playerScript : MonoBehaviour {
         PhoneRef.RegisterCmdHandler<messageSetName>("setName", onSetName);
         PhoneRef.RegisterCmdHandler<messagePoison>("poison", onPoison);
         PhoneRef.RegisterCmdHandler<messageRequestScan>("requestScan", onRequestScan);
+<<<<<<< HEAD
         PhoneRef.RegisterCmdHandler<messageReceivePhoto>("receivePhoto", onReceivePhoto);
+=======
+        PhoneRef.RegisterCmdHandler<messageSetName>("_hft_setname_", onSetName);
+>>>>>>> origin/master
         PoisonTimer = POISON_TURNS_TIMER_RESET;
     }
+
+    internal void reinitialize(NetPlayer netPlayer)
+    {
+        PhoneRef = netPlayer;
+        Manager.reinitialize(this);
+    }
+
 
     void Start () {
 		
@@ -100,12 +111,19 @@ public class playerScript : MonoBehaviour {
 
     private class messageSetName
     {
-        public string selectedName = null;
+        public messageSetName()
+        {  // needed for deserialization
+        }
+        public messageSetName(string _name)
+        {
+            name = _name;
+        }
+        public string name = "";
     };
 
     private void onSetName(messageSetName data)
     {
-        PlayerName = data.selectedName;
+        PlayerName = data.name;
 
         //update the main screen to reflect this
     }

@@ -1051,8 +1051,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1740896164}
-  - component: {fileID: 1740896163}
   - component: {fileID: 1740896162}
+  - component: {fileID: 1740896163}
   m_Layer: 0
   m_Name: gameManager
   m_TagString: Untagged
@@ -1079,7 +1079,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1740896161}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cbe8bd78727b4e0dbd41ca7de7bfc3d, type: 3}
+  m_Script: {fileID: 11500000, guid: e07b4643d6f66574f8763b06d8282749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   prefabToSpawnForPlayer: {fileID: 987342981}
