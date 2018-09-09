@@ -21,8 +21,11 @@ public class playerScript : MonoBehaviour {
 	public Texture2D PlayerPhoto { get; set; }
 	public HappyFunTimes.NetPlayer PhoneRef { get; set; }
     public gm Manager { get; set; }
+    public List<int> CurrentRequesters { get; set; }
     private PlayerState _state;
     private PlayerType _type;
+    public const int POISON_TIMER_RESET = 2;
+    public int PoisonTimer { get; set; }
 
     public PlayerState State
     {
@@ -62,12 +65,13 @@ public class playerScript : MonoBehaviour {
 		PhoneRef = spawnInfo.netPlayer;
         Manager = GameObject.FindObjectOfType<gm>();
         Manager.addPlayer(this);
+        CurrentRequesters = new List<int>();
         PhoneRef.RegisterCmdHandler<messageAccuse>("accuse", onAccuse);
         PhoneRef.RegisterCmdHandler<messageAccuseListRequest>("accuseListRequest", onAccuseListRequest);
         PhoneRef.RegisterCmdHandler<messageSetName>("setName", onSetName);
         PhoneRef.RegisterCmdHandler<messagePoison>("poison", onPoison);
         PhoneRef.RegisterCmdHandler<messageRequestScan>("requestScan", onRequestScan);
-
+        PoisonTimer = POISON_TIMER_RESET;
     }
 
     void Start () {
@@ -140,6 +144,7 @@ public class playerScript : MonoBehaviour {
     {
         //dead = true;
         State = PlayerState.Dead;
+        Manager.onDeath(this);
         //PUT UP DAT RED SCREEN
     }
 
@@ -148,6 +153,18 @@ public class playerScript : MonoBehaviour {
         if(State == PlayerState.Alive && !IsAlien)
         {
             State = PlayerState.Poisoned;
+        }
+    }
+
+    public void OnScan(playerScript other)
+    {
+        if(State == PlayerState.Poisoned)
+        {
+            PoisonTimer -= 1;
+            if(PoisonTimer <= 0)
+            {
+                death();
+            }
         }
     }
 }

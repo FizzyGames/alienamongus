@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using HappyFunTimes;
 using System;
+using System.Linq;
 
 public class gm : MonoBehaviour
 {
@@ -10,9 +11,10 @@ public class gm : MonoBehaviour
     private Dictionary<int, playerScript> _idToPlayer;
     static readonly int[] allPossibleValues = populateAllPossible();
     List<int> allCurrentPossible;
+    Dictionary<int, int> _matchesInProgress;
     static int[] populateAllPossible()
     {
-        int[] values = new int[1000-100];
+        int[] values = new int[1000 - 100];
         for (int i = 100; i < 1000; i++)
         {
             values[i - 100] = i;
@@ -39,6 +41,11 @@ public class gm : MonoBehaviour
         return returnVal;
     }
 
+    public bool tryGetPlayer(int id, out playerScript playerScript)
+    {
+        return _idToPlayer.TryGetValue(id, out playerScript);
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -59,6 +66,7 @@ public class gm : MonoBehaviour
         //allCurrentPossible = new int[allPossibleValues.Length];
         //Array.Copy(allPossibleValues, allCurrentPossible, allPossibleValues.Length);
         allCurrentPossible = new List<int>(allPossibleValues);
+        _matchesInProgress = new Dictionary<int, int>();
         foreach (playerScript item in AllPlayers)
         {
             int index = UnityEngine.Random.Range(0, allCurrentPossible.Count);
@@ -82,7 +90,7 @@ public class gm : MonoBehaviour
         if (targetPlayer.IsAlien)//if the target is an alien
         {
             //GAME OVER WE WIN
-
+            gameOver(true);
         }
         else//if it was a false accusation
         {
@@ -96,15 +104,100 @@ public class gm : MonoBehaviour
 
     }
 
+    private void sendFailuresToWaitingParties(playerScript player)
+    {
+        int requestedCount = player.CurrentRequesters.Count;
+        if (requestedCount != 0)
+        {
+            for (int i = 0; i < requestedCount; i++)
+            {
+                playerScript previousRequester = getPlayer(player.CurrentRequesters[i]);
+                sendIDCallback(previousRequester, false);
+            }
+            player.CurrentRequesters.Clear();
+        }
+    }
+    private void sendIDCallback(playerScript receiver, bool success)
+    {
+        idRequestMessageTP.MessageSuccessState state = success ? idRequestMessageTP.MessageSuccessState.Success : idRequestMessageTP.MessageSuccessState.Failure;
+        receiver.PhoneRef.SendCmd("idRequestCallback", new idRequestMessageTP(state));
+    }
+
+    public void onDeath(playerScript playerScript)
+    {
+        int recipient;
+        if (_matchesInProgress.TryGetValue(playerScript.ID, out recipient))
+        {
+            _matchesInProgress.Remove(playerScript.ID);
+        }
+        else
+        {
+            KeyValuePair<int, int> match = _matchesInProgress.FirstOrDefault(x => x.Value == playerScript.ID);
+            if (match.Key != 0 && match.Value != 0)
+            {
+                _matchesInProgress.Remove(match.Key);
+            }
+        }
+        if(playerScript.Type == playerScript.PlayerType.Alien)
+        {
+            gameOver(true);
+        }
+    }
+
+    private void gameOver(bool humansWin)
+    {
+        
+    }
+
+    public void onSuccessfulMatch(int player1, int player2)
+    {
+        onSuccessfulMatch(getPlayer(player1), getPlayer(player2));
+    }
+
+    public void onSuccessfulMatch(playerScript player1, playerScript player2)
+    {
+        player1.OnScan(player2);
+        player2.OnScan(player1);
+    }
+
     public void requestID(int requester, int target)//this gets the target ID data and returns it to the requester
     {
         //update grid to show two people interacting
         //we need to store who's interacting with who
 
         playerScript requestingPlayer = getPlayer(requester);
-        requestingPlayer.PhoneRef.SendCmd("idDelivery", new sendIDMessageTP(target, this));//THIS IS THE FUNCTION TO SEND A COMMAND TO THE PHONE, idDelivery is what the phone is listening for
+        if (target != -1)
+        {
+            playerScript targetPlayer = null;
+            if (tryGetPlayer(target, out targetPlayer))
+            {
+                sendFailuresToWaitingParties(requestingPlayer);
+                if (_matchesInProgress.ContainsKey(targetPlayer.ID))
+                {
+                    sendIDCallback(requestingPlayer, true);
+                    sendIDCallback(targetPlayer, true);
+                }
+                else
+                {
+                    _matchesInProgress.Add(requestingPlayer.ID, targetPlayer.ID);
+                    targetPlayer.CurrentRequesters.Add(requestingPlayer.ID);
+                }
+            }
+            else
+            {
+                sendIDCallback(requestingPlayer, false);
+            }
+        }
+        else
+        {
+            if (_matchesInProgress.ContainsKey(requester))
+            {
+                _matchesInProgress.Remove(requester);
+            }
+        }
 
 
+        //requestingPlayer.PhoneRef.SendCmd("idDelivery", new sendIDMessageTP(target, this));//THIS IS THE FUNCTION TO SEND A COMMAND TO THE PHONE, idDelivery is what the phone is listening for
     }
 
 
@@ -117,7 +210,10 @@ public class gm : MonoBehaviour
     public void sendAllTargets(int requester)
     {
         playerScript requestingPlayer = getPlayer(requester);
-        requestingPlayer.PhoneRef.SendCmd("targetDelivery", new listMessageTP(new List<int>(_idToPlayer.Keys), this));
+        requestingPlayer.PhoneRef.SendCmd("targetDelivery", new listMessageTP(new List<int>(_idToPlayer
+            .Where(x => { return x.Value.IsAlive; })
+            .Select(x => { return x.Key; })),
+            this));
     }
 
 
@@ -200,6 +296,21 @@ public class gm : MonoBehaviour
             _messages = new List<sendIDMessageTP>(messages);
         }
 
+    }
+
+    [Serializable]
+    public class idRequestMessageTP
+    {
+        public enum MessageSuccessState
+        {
+            Failure,
+            Success,
+        }
+        public readonly MessageSuccessState successState;
+        public idRequestMessageTP(MessageSuccessState state)
+        {
+            successState = state;
+        }
     }
 
 
