@@ -136,6 +136,11 @@ function gameStart() {
     document.getElementById("waitingForGameStart").style.display = "none";
     document.getElementById("allTabs").style.display = "block";
     document.getElementById("numpad").style.display = "block";
+    var accusationMenu = $('#accusation_menu');
+	accusationMenu.html("");
+	var numpadElement = document.getElementById("tabParent");
+	var instance = M.Tabs.getInstance(numpadElement);
+	instance.select('numpadTab');
 }
 var keypadVal = 0;
 

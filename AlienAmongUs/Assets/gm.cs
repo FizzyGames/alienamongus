@@ -12,6 +12,8 @@ public class gm : MonoBehaviour
     static readonly int[] allPossibleValues = populateAllPossible();
     List<int> allCurrentPossible;
     Dictionary<int, int> _matchesInProgress;
+    public bool GameIsOver { get; set; }
+    public bool HumansWon { get; set; }
     static int[] populateAllPossible()
     {
         int[] values = new int[1000 - 100];
@@ -77,10 +79,12 @@ public class gm : MonoBehaviour
             else if (!idToPlayer.Value.IsDown && idToPlayer.Value.IsAlien)
                 ++aliveAlienPlayers;
         }
-        if (aliveHumanPlayers == 1 && aliveAlienPlayers == 1)
+        if (aliveHumanPlayers <= 1 && aliveAlienPlayers >= 1)
             gameOver(false);
         else if (aliveAlienPlayers == 0)
             gameOver(true);
+        else
+            gameOver(false);
     }
 
     public void gameStart()
@@ -88,7 +92,8 @@ public class gm : MonoBehaviour
         //assign IDs to every player
         //idToPlayer.Add(p.ID, p);//and add the ID to the dictionary
         _idToPlayer = new Dictionary<int, playerScript>();
-        //allCurrentPossible = new int[allPossibleValues.Length];
+        GameIsOver = false;
+        //allCurrentPossiblex = new int[allPossibleValues.Length];
         //Array.Copy(allPossibleValues, allCurrentPossible, allPossibleValues.Length);
         allCurrentPossible = new List<int>(allPossibleValues);
         _matchesInProgress = new Dictionary<int, int>();
@@ -193,7 +198,8 @@ public class gm : MonoBehaviour
 
     private void gameOver(bool humansWin)
     {
-
+        GameIsOver = true;
+        HumansWon = humansWin;
     }
 
     public void onSuccessfulMatch(int player1, int player2)
