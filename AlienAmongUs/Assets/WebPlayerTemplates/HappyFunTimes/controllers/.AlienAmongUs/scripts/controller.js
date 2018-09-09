@@ -273,22 +273,34 @@ client.addEventListener('idDelivery', function (data) {
 
 client.addEventListener('assignID', function (data) {
     ID = data.ID;
+	console.log(type);
+	console.log(ID);
+	console.log(state);
     document.getElementById("idref1").innerHTML = "Your ID is " + ID;
     document.getElementById("idref2").innerHTML = "Your ID is " + ID;
 
 });
 
-var type
-var state
+var type;
+var state;
 
 client.addEventListener('assignType', function (data) {
     type = data.type;
+	console.log(type);
+	console.log(ID);
+	console.log(state);
 	if(ID!=0)
+	{
+		console.log("starting game");
 		gameStart();
+	}
 });
 
 client.addEventListener('assignState', function (data) {
     state = data.state;
+	console.log(type);
+	console.log(ID);
+	console.log(state);
     if (state == "Dead" && ID != 0) {
         document.getElementById("waitingForPlayer").style.display = "none";
         document.getElementById("idPage").style.display = "none";
