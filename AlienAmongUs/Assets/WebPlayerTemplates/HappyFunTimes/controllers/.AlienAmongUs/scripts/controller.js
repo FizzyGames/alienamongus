@@ -285,6 +285,14 @@ var type;
 var state;
 
 client.addEventListener('assignType', function (data) {
+    document.getElementById("playerType").innerHTML = "Your species is " + type;
+    if (type == "Alien") {
+        document.getElementById("instructions").innerHTML = 'You must kill every human on the station. After entering an ID, if you hold the checkmark button for a moment and then releasing, you poison the targeted human.'
+
+    }
+    else {
+        document.getElementById("instructions").innerHTML = 'You must notice the interactions of the people around you '
+    }
     type = data.type;
 	console.log(type);
 	console.log(ID);
@@ -308,6 +316,7 @@ client.addEventListener('assignState', function (data) {
         document.getElementById("allTabs").style.display = "none";
         document.getElementById("numpad").style.display = "none";
         document.getElementById("info").style.display = "none";
+        document.getElementById("accusation_menu").style.display = "none";
         document.getElementById("deadMessage").innerHTML = "YOU ARE DEAD"
 
     }
@@ -319,6 +328,7 @@ client.addEventListener('assignState', function (data) {
 client.addEventListener('idRequestCallback', function (data) {//this is when you send a code and the pc says yes this is valid ONLY HAPPENS FOR THE FIRST PERSON TO INTERACT, THE SECOND PERSON goes straight to IDDELIVERY
     if (data.successState == "Success") {
         document.getElementById("scannedName").innerHTML = data.playerName;
+        document.getElementById("ScannedImage").innerHTML = "<img src=" + data.playerPhoto + ">";
         document.getElementById("waitingForPlayer").style.display = "none";
         document.getElementById("idPage").style.display = "block";
 
