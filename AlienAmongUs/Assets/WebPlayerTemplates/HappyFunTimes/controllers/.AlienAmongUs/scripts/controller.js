@@ -210,7 +210,7 @@ function myFunction(num) {
     else if (num == 88) {
         if (keypadVal>99){ 
             document.getElementById("numText").innerHTML = "";
-            keypadVal = 0;
+            
             if(new Date().getTime() - alienKillTimerCounter > 300)
             {
               client.sendCmd('requestScan', {
@@ -226,6 +226,7 @@ function myFunction(num) {
                 scanType: 0,
               });
             }
+            keypadVal = 0;
             alienKillTimerReset()
             document.getElementById("waitingForPlayer").style.display = "block";
             document.getElementById("numpad").style.display = "none";
