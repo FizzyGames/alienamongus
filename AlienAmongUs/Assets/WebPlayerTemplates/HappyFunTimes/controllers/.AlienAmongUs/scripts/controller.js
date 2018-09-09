@@ -39,6 +39,7 @@ var strings = sampleUI.strings;
 var touch = sampleUI.touch;
 var alienKillTimerCounter = 0;
 var alienKillTimerStart = true;
+var goToNextRow = 0;
 
 var globals = {
     debug: false,
@@ -335,19 +336,31 @@ client.addEventListener('targetDelivery', function(cmd) {
     image.src = player.playerPhoto;
     currElement.append(image);
     */
+    var newDiv = document.createElement('div');
+    if(goToNextRow < 4)
+    {
+      newDiv.setAttribute('style', 'right: 0');
+      goToNextRow++;
+    }
+    else
+    {
+      goToNextRow = 0;
+    }
 		var currElement = document.createElement('img');
-		currElement.setAttribute('class', 'waves-effect waves-light btn col s4'); 
+		currElement.setAttribute('class', 'waves-effect waves-light btn'); 
     currElement.setAttribute('src', player.playerPhoto);
-    currElement.setAttribute('style', 'width:128px; height:128px')
+    currElement.setAttribute('style', 'width:128px; height:128px;');
 		let pID = player.playerID;
 		currElement.setAttribute('onClick', 'accuseUser('+player.playerID+')');
 		
 		currElement.style.color = player.playerStatus != "Dead" ? "green" : "red";
 		accusationMenu.append(currElement);
-    currElement = document.createElement('p');
-    currElement.innerHTML = player.playerName;
+    var name = document.createElement('p');
+    name.innerHTML = player.playerName;
     //currElement.setAttribute('p', player.playerName);
-    accusationMenu.append(currElement);
+    accusationMenu.append(newDiv);
+    newDiv.append(currElement);
+    newDiv.append(name);
 	})
       console.log("is this thing on");
   });

@@ -59,13 +59,13 @@
             </ul>
         </div>
     </div>
-  <div id="hft-content">
+  <div id="hft-content" style="overflow-y:scroll">
 
-    <div id="gamearea" class="fixheight">
+    <div id="gamearea">
       <h1 id="gamestatus">status</h1>
-      <div id="display" class="hft-fullcenter fixheight">
+      <div id="display" class="fixheight">
 
-          <div id="input" class="hft-instruction hft-fullcenter">
+          <div id="input" class="hft-instruction">
               <div id="welcomeScreen" style="z-index: 4200">
                   "Please create your ID by taking a photo"<br />
                   <input type="file" id="photoRef" style="display: none" accept="image/*" name="Take Selfie" capture="camera" onchange="openCamera(files[0])">
@@ -105,8 +105,11 @@
                 -->
 
               </div>
-              <div id="accusation_menu" class="row" style="overflow-y">
+              <div>
+                <ul id="accusation_menu">
+                </ul>
               </div>
+
 
               <div id="info">
                   <div id="playerType">
