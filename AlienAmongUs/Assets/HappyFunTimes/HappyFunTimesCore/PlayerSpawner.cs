@@ -116,7 +116,7 @@ namespace HappyFunTimes
             }
         }
 
-        void StartPlayer(NetPlayer netPlayer, object data)
+        protected virtual GameObject StartPlayer(NetPlayer netPlayer, object data)
         {
             m_log.Info("Spawn Player");
             GameObject gameObject = (GameObject)Instantiate(prefabToSpawnForPlayer);
@@ -125,6 +125,7 @@ namespace HappyFunTimes
             spawnInfo.netPlayer = netPlayer;
             spawnInfo.data = data;
             gameObject.SendMessage("InitializeNetPlayer", spawnInfo);
+            return gameObject;
         }
 
         GameObject GetPrefab(int ndx)
@@ -149,7 +150,7 @@ namespace HappyFunTimes
             }
         }
 
-        void Awake()
+        virtual protected void Awake()
         {
             m_connectToServerOnStart = enabled;
             m_connectionManager = new HFTConnectionManager(gameObject, happyfuntimesOptions);

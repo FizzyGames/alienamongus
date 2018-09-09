@@ -101,14 +101,26 @@ public class gm : MonoBehaviour
             _idToPlayer.Add(value, item);
             assignID(item);
             item.State = playerScript.PlayerState.Alive;
+            assignState(item);
         }
         int randomIndex = UnityEngine.Random.Range(0, _idToPlayer.Count);
         _idToPlayer.ElementAt(randomIndex).Value.Type = playerScript.PlayerType.Alien;
+        foreach (var idToPlayer in _idToPlayer)
+        {
+            assignType(idToPlayer.Value);
+        }
     }
 
     public void addPlayer(playerScript p)//this is called when a player joins
     {
         AllPlayers.Add(p);//add them to the list of players
+    }
+
+    public void reinitialize(playerScript player)
+    {
+        assignID(player);
+        assignType(player);
+        assignState(player);
     }
 
     public void accusation(int source, int target)
@@ -150,10 +162,11 @@ public class gm : MonoBehaviour
             player.CurrentRequesters.Clear();
         }
     }
-    private void sendIDCallback(playerScript receiver, bool success)
+    private void sendIDCallback(playerScript receiver, bool success, playerScript target = null)
     {
         idRequestMessageTP.MessageSuccessState state = success ? idRequestMessageTP.MessageSuccessState.Success : idRequestMessageTP.MessageSuccessState.Failure;
-        receiver.PhoneRef.SendCmd("idRequestCallback", new idRequestMessageTP(state));
+        Debug.Assert(!success || target != null);
+        receiver.PhoneRef.SendCmd("idRequestCallback", new idRequestMessageTP(state, target != null ? target.ID : -1, this));
     }
 
     public void onDeath(playerScript playerScript)
@@ -214,8 +227,8 @@ public class gm : MonoBehaviour
                 sendFailuresToWaitingParties(requestingPlayer, target);
                 if (_matchesInProgress.ContainsKey(targetPlayer.ID))
                 {
-                    sendIDCallback(requestingPlayer, true);
-                    sendIDCallback(targetPlayer, true);
+                    sendIDCallback(requestingPlayer, true, targetPlayer);
+                    sendIDCallback(targetPlayer, true, requestingPlayer);
                     onSuccessfulMatch(requestingPlayer, targetPlayer);
                 }
                 else
@@ -259,6 +272,15 @@ public class gm : MonoBehaviour
 
     }
 
+    public void assignType(playerScript target)
+    {
+        target.PhoneRef.SendCmd("assignType", new messageAssignTypeTP(target.Type));
+    }
+
+    public void assignState(playerScript target)
+    {
+        target.PhoneRef.SendCmd("assignState", new messageAssignStateTP(target.State));
+    }
 
 
     public void sendTargets(int requester, List<int> targets)
@@ -292,6 +314,11 @@ public class gm : MonoBehaviour
     {
         public sendIDMessageTP(int target, gm manager)
         {
+            if (target == -1)
+            {
+                playerID = -1;
+                return;
+            }
             playerScript player = manager.getPlayer(target);
             Debug.Assert(player != null);
             //player.PlayerName = playerName;
@@ -359,7 +386,7 @@ public class gm : MonoBehaviour
     }
 
     [Serializable]
-    public class idRequestMessageTP
+    public class idRequestMessageTP : sendIDMessageTP
     {
         public enum MessageSuccessState
         {
@@ -367,7 +394,8 @@ public class gm : MonoBehaviour
             Success,
         }
         public readonly MessageSuccessState successState;
-        public idRequestMessageTP(MessageSuccessState state)
+        public idRequestMessageTP(MessageSuccessState state, int targetID, gm manager)
+            : base(targetID, manager)
         {
             successState = state;
         }
@@ -384,6 +412,24 @@ public class gm : MonoBehaviour
         }
 
         public int ID;
+    }
+
+    private class messageAssignTypeTP
+    {
+        public playerScript.PlayerType type;
+        public messageAssignTypeTP(playerScript.PlayerType _type)
+        {
+            type = _type;
+        }
+    }
+
+    private class messageAssignStateTP
+    {
+        public playerScript.PlayerState state;
+        public messageAssignStateTP(playerScript.PlayerState _state)
+        {
+            state = _state;
+        }
     }
     #endregion
     //END COMMANDS TO BE SENT TO THE PHONE
