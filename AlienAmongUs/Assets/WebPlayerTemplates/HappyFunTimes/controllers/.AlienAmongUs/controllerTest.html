@@ -54,9 +54,8 @@
         <div class="col s12">
             <ul class="tabs">
                 <li class="tab" ><a href="#numpad">Scan</a></li>
-                <li class="tab"><a href="#anotherbutton">Accuse</a></li>
-                <a class="btn" onclick="sendAccusationRequest()">testing</a>
-                <li class="tab"><a href="#test3">Info</a></li>
+                <li class="tab"><a href="#accusation_menu" onclick="setAccusationMenu()">Accuse</a></li>
+                <li class="tab"><a href="#info" >Info</a></li>
             </ul>
         </div>
     </div>
@@ -90,7 +89,7 @@
                   <a id="9button" onclick="myFunction(9)" class="waves-effect waves-light btn-large">9</a> <br />
                   <a id="backspacebutton" onclick="myFunction(99)" class="waves-effect waves-light btn-large">X</a>
                   <a id="0button" onclick="myFunction(0)"class="waves-effect waves-light btn-large">0</a>
-                  <a id="confirmbutton" onclick="myFunction(88)" class="waves-effect waves-light btn-large">✓</a> <br />
+                  <a id="confirmbutton" onmousedown="alienKillTimer()" onmouseup="myFunction(88);" class="waves-effect waves-light btn-large">✓</a> <br />
                   <div id="idref1">
                       <b>Your ID is XXX</b>
                   </div>
@@ -98,14 +97,26 @@
                       <!--<a id = "abutton" onclick="myFunction()" class="waves-effect waves-light btn">button</a>
         <a id="anotherbutton" class="waves-effect waves-light btn">f;lasdjkfjasd</a>
             -->
-                  <p id="button33">testing</p>
-                  <div id="accusation_menu"></div>
+                  
+
 
                   <!--<a id = "abutton" onclick="myFunction()" class="waves-effect waves-light btn">button</a>
             <a id="anotherbutton" class="waves-effect waves-light btn">f;lasdjkfjasd</a>
                 -->
 
-                  </div>
+              </div>
+              <div id="accusation_menu">
+              </div>
+
+              <div id= "info">
+                <div id = "playerType">
+                  
+                </div>
+                <div>
+                  <p>
+                  </p>
+                </div>
+              </div>
               <div id="waitingForPlayer" style="z-index: 4200">
                 <div>
                   
@@ -124,7 +135,7 @@
               </div>
 
               <div id="idPage" style="z-index: 4200">
-                  <b>Picture here</b><br />
+                  <img id="ScannedImage" src="">
                   <b>Name Here</b>
                   <a id="okID" onclick="closeIDPage" class="waves-effect waves-light btn-large">OK</a>
               </div>
