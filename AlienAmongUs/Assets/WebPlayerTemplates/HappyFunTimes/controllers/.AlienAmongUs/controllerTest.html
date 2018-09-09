@@ -69,6 +69,7 @@
               <div id="welcomeScreen" style="z-index: 4200">
                   "Please create your ID by taking a photo"<br />
                   <a id="cameraButton" onclick="openCamera()" class="waves-effect waves-light btn-large">Camera</a>
+                  <input type="file" id="photoRef" accept="image/*" name = "Take Selfie" capture="camera" onchange="openCamera(this.File)">
               </div>
               <div id="waitingForGameStart" style="z-index: 4200">
                   <b>Waiting for game to start...</b><br />
@@ -89,14 +90,15 @@
                   <a id="backspacebutton" onclick="myFunction(99)" class="waves-effect waves-light btn-large">X</a>
                   <a id="0button" onclick="myFunction(0)"class="waves-effect waves-light btn-large">0</a>
                   <a id="confirmbutton" onclick="myFunction(88)" class="waves-effect waves-light btn-large">✓</a> <br />
-                  
-                  <b>Your ID is XXX</b>
+                  <div id="idref1">
+                      <b>Your ID is XXX</b>
+                  </div>
 
-                  <!--<a id = "abutton" onclick="myFunction()" class="waves-effect waves-light btn">button</a>
-            <a id="anotherbutton" class="waves-effect waves-light btn">f;lasdjkfjasd</a>
-                -->
+                      <!--<a id = "abutton" onclick="myFunction()" class="waves-effect waves-light btn">button</a>
+        <a id="anotherbutton" class="waves-effect waves-light btn">f;lasdjkfjasd</a>
+            -->
 
-              </div>
+                  </div>
               <div id="waitingForPlayer" style="z-index: 4200">
                 <div>
                   
@@ -105,7 +107,10 @@
                   <br>
                   <a id="CancelScan" onclick="CancelScan()" class="waves-effect waves-light btn-large">Cancel Scan</a>
                   <br>
-                  <b>Your ID is XXX</b>
+                    <div id="idref2">
+                        <b>Your ID is XXX</b>
+                    </div>
+=
                 </div>
 
                   

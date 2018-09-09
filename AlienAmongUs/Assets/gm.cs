@@ -158,6 +158,7 @@ public class gm : MonoBehaviour
     public void onDeath(playerScript playerScript)
     {
         int recipient;
+        GameObject.FindObjectOfType<databaseDisplayScript>().killPlayer(playerScript);
         if (_matchesInProgress.TryGetValue(playerScript.ID, out recipient))
         {
             _matchesInProgress.Remove(playerScript.ID);
@@ -181,10 +182,13 @@ public class gm : MonoBehaviour
     public void onSuccessfulMatch(int player1, int player2)
     {
         onSuccessfulMatch(getPlayer(player1), getPlayer(player2));
+
     }
 
     public void onSuccessfulMatch(playerScript player1, playerScript player2)
     {
+        GameObject.FindObjectOfType<databaseDisplayScript>().glowPlayer(player1);
+        GameObject.FindObjectOfType<databaseDisplayScript>().glowPlayer(player2);
         player1.OnScan(player2);
         player2.OnScan(player1);
         checkGameState();

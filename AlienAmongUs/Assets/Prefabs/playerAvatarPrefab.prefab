@@ -89,12 +89,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b7310584ecb8d4d9db50d425f4e3e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 0
+  distance: 30
   lerpVal: 0
-  lerpSpeed: 0
+  lerpSpeed: 1
+  cooldown: 7.5
+  counter: 0
   rising: 0
   sinking: 0
   killerRise: 0
+  holding: 0
   startPos: {x: 0, y: 0, z: 0}
 --- !u!114 &114321984325852396
 MonoBehaviour:

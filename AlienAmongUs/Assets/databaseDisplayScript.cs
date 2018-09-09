@@ -95,21 +95,22 @@ public class databaseDisplayScript : MonoBehaviour {
 
     public void glowPlayer(playerScript p)
     {
-        int index = players.FindIndex(x=>x.Equals(p.gameObject));
+        //int index = players.FindIndex(x=>x.Equals(p.gameObject));
+        int index = players.IndexOf(p.gameObject);
         playerAvatars[index].GetComponent<raiseAndLowerScript>().beginRise();
     }
 
     public void killPlayer(playerScript p)
     {
-        int index = players.FindIndex(x => x.Equals(p.gameObject));
+        int index = players.IndexOf(p.gameObject);
         playerAvatars[index].transform.GetChild(1).GetComponent<RawImage>().color = Color.red;
 
     }
 
     public void revealKiller(playerScript p)
     {
-        int index = players.FindIndex(x => x.Equals(p.gameObject));
-        playerAvatars[index].transform.GetChild(1).GetComponent<RawImage>().color = Color.red;
+        int index = players.IndexOf(p.gameObject);
+        //playerAvatars[index].transform.GetChild(1).GetComponent<RawImage>().color = Color.magenta;
     }
 
     
