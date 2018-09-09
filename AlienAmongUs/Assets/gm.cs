@@ -96,13 +96,14 @@ public class gm : MonoBehaviour
         {
             int index = UnityEngine.Random.Range(0, allCurrentPossible.Count);
             int value = allCurrentPossible[index];
+            item.resetGameState();
             allCurrentPossible.Remove(index);
             item.ID = value;
             _idToPlayer.Add(value, item);
-            assignID(item);
             item.State = playerScript.PlayerState.Alive;
+            item.Type = playerScript.PlayerType.Human;
+            assignID(item);
             assignState(item);
-            item.LastScannedID = -1;
         }
         int randomIndex = UnityEngine.Random.Range(0, _idToPlayer.Count);
         _idToPlayer.ElementAt(randomIndex).Value.Type = playerScript.PlayerType.Alien;
