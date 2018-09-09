@@ -76,11 +76,8 @@ public class playerScript : MonoBehaviour {
         PhoneRef.RegisterCmdHandler<messageSetName>("setName", onSetName);
         PhoneRef.RegisterCmdHandler<messagePoison>("poison", onPoison);
         PhoneRef.RegisterCmdHandler<messageRequestScan>("requestScan", onRequestScan);
-<<<<<<< HEAD
         PhoneRef.RegisterCmdHandler<messageReceivePhoto>("receivePhoto", onReceivePhoto);
-=======
         PhoneRef.RegisterCmdHandler<messageSetName>("_hft_setname_", onSetName);
->>>>>>> origin/master
         PoisonTimer = POISON_TURNS_TIMER_RESET;
     }
 
