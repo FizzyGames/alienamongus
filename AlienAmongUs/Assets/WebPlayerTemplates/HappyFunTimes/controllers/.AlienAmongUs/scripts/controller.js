@@ -307,14 +307,15 @@ client.addEventListener('idRequestCallback', function (data) {//this is when you
     if (data.successState == "Success") {
         document.getElementById("scannedName").innerHTML = data.playerName;
         document.getElementById("waitingForPlayer").style.display = "none";
-        document.getElementById("numpad").style.display = "block";
+        document.getElementById("idPage").style.display = "block";
+        document.getElementById("allTabs").style.display = "block";
+        
 
     }
     else {
 
         document.getElementById("waitingForPlayer").style.display = "none";
-        document.getElementById("idPage").style.display = "block";
-        document.getElementById("allTabs").style.display = "block";
+        document.getElementById("numpad").style.display = "block";
 
     }
 
