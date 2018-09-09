@@ -105,12 +105,6 @@ inputElem.addEventListener('pointermove', function(event) {
   event.preventDefault();
 });
 
-document.getElementById("abutton").addEventListener('click', function() {
-  settingsElement.style.display = "none";
-  s.playerNameHandler.startNameEntry();
-}, false);
-
-document.getElementById("abutton").addEventListener("click", myFunction);
 
 
 function hideonstart() {
@@ -178,6 +172,17 @@ function myFunction(num) {
     }
         
 
+}
+
+
+function CancelScan()
+{
+  client.sendCmd('requestScan', {
+    idToScan: parseInt(-1),
+  });
+  document.getElementById("waitingForPlayer").style.display = "none";
+  document.getElementById("numpad").style.display = "block";
+  document.getElementById("allTabs").style.display = "block";
 }
 
 // Update our score when the game tells us.
