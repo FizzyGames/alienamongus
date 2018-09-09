@@ -84,6 +84,13 @@ public class playerScript : MonoBehaviour {
     internal void reinitialize(NetPlayer netPlayer)
     {
         PhoneRef = netPlayer;
+PhoneRef.RegisterCmdHandler<messageAccuse>("accuse", onAccuse);
+        PhoneRef.RegisterCmdHandler<messageAccuseListRequest>("accuseListRequest", onAccuseListRequest);
+        PhoneRef.RegisterCmdHandler<messageSetName>("setName", onSetName);
+        PhoneRef.RegisterCmdHandler<messagePoison>("poison", onPoison);
+        PhoneRef.RegisterCmdHandler<messageRequestScan>("requestScan", onRequestScan);
+        PhoneRef.RegisterCmdHandler<messageReceivePhoto>("receivePhoto", onReceivePhoto);
+        PhoneRef.RegisterCmdHandler<messageSetName>("_hft_setname_", onSetName);
         Manager.reinitialize(this);
     }
 
