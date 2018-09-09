@@ -42,10 +42,13 @@ var globals = {
     debug: false,
   //orientation: "landscape-primary",
 };
+
+
 misc.applyUrlSettings(globals);
 mobileHacks.fixHeightHack();
 mobileHacks.disableContextMenu();
 
+var ID = 0;
 var score = 0;
 var statusElem = document.getElementById("gamestatus");
 var inputElem = document.getElementById("inputarea");
@@ -105,12 +108,10 @@ inputElem.addEventListener('pointermove', function(event) {
   event.preventDefault();
 });
 
-document.getElementById("abutton").addEventListener('click', function() {
-  settingsElement.style.display = "none";
-  s.playerNameHandler.startNameEntry();
-}, false);
 
-document.getElementById("abutton").addEventListener("click", myFunction);
+
+
+
 
 
 function hideonstart() {
@@ -143,6 +144,8 @@ function openCamera() {
     waitForGameStart();
 
 }
+
+
 
 function myFunction(num) {
 
@@ -188,7 +191,11 @@ client.addEventListener('scored', function(cmd) {
 
 client.addEventListener('idDelivery', function (data) {
     idName = data.playerName;
+    
+});
 
+client.addEventListener('assignID', function (data) {
+    ID = data.ID;
 });
 
 

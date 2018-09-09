@@ -66,6 +66,7 @@ public class gm : MonoBehaviour
             allCurrentPossible.Remove(index);
             item.ID = value;
             _idToPlayer.Add(value, item);
+            assignID(item);
         }
     }
 
@@ -106,6 +107,12 @@ public class gm : MonoBehaviour
 
 
     }
+
+    public void assignID(playerScript target) {
+        target.PhoneRef.SendCmd("assignID", new messageAssignID(target.ID));
+
+    }
+    
 
 
     public void sendTargets(int requester, List<int> targets)
@@ -200,6 +207,18 @@ public class gm : MonoBehaviour
             _messages = new List<sendIDMessageTP>(messages);
         }
 
+    }
+
+    private class messageAssignID
+    {
+        public messageAssignID(int _ID)
+        {
+
+            ID = _ID;
+
+        }
+
+        public int ID;
     }
 
 
