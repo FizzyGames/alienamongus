@@ -167,6 +167,7 @@ public class gm : MonoBehaviour
         //we need to store who's interacting with who
 
         playerScript requestingPlayer = getPlayer(requester);
+        requestingPlayer.IsRequesting = false;
         if (target != -1)
         {
             playerScript targetPlayer = null;
@@ -181,6 +182,7 @@ public class gm : MonoBehaviour
                 else
                 {
                     _matchesInProgress.Add(requestingPlayer.ID, targetPlayer.ID);
+                    requestingPlayer.IsRequesting = true;
                     targetPlayer.CurrentRequesters.Add(requestingPlayer.ID);
                 }
             }
@@ -319,20 +321,20 @@ public class gm : MonoBehaviour
         {
             successState = state;
         }
-        private class messageAssignID
-        {
-            public messageAssignID(int _ID)
-            {
-
-                ID = _ID;
-
-            }
-
-            public int ID;
-        }
 
 
         #endregion
         //END COMMANDS TO BE SENT TO THE PHONE
+    }
+    private class messageAssignID
+    {
+        public messageAssignID(int _ID)
+        {
+
+            ID = _ID;
+
+        }
+
+        public int ID;
     }
 }
