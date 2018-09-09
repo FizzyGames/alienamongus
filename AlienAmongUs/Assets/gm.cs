@@ -101,6 +101,8 @@ public class gm : MonoBehaviour
             _idToPlayer.Add(value, item);
             assignID(item);
         }
+        int randomIndex = UnityEngine.Random.Range(0, _idToPlayer.Count);
+        _idToPlayer.ElementAt(randomIndex).Value.Type = playerScript.PlayerType.Alien;
     }
 
     public void addPlayer(playerScript p)//this is called when a player joins
@@ -130,15 +132,19 @@ public class gm : MonoBehaviour
         getPlayer(target).poison();
     }
 
-    private void sendFailuresToWaitingParties(playerScript player)
+    private void sendFailuresToWaitingParties(playerScript player, int validTarget)
     {
         int requestedCount = player.CurrentRequesters.Count;
         if (requestedCount != 0)
         {
             for (int i = 0; i < requestedCount; i++)
             {
-                playerScript previousRequester = getPlayer(player.CurrentRequesters[i]);
-                sendIDCallback(previousRequester, false);
+                int currID = player.CurrentRequesters[i];
+                if (currID != validTarget)
+                {
+                    playerScript previousRequester = getPlayer(currID);
+                    sendIDCallback(previousRequester, false);
+                }
             }
             player.CurrentRequesters.Clear();
         }
@@ -196,11 +202,12 @@ public class gm : MonoBehaviour
             playerScript targetPlayer = null;
             if (tryGetPlayer(target, out targetPlayer))
             {
-                sendFailuresToWaitingParties(requestingPlayer);
+                sendFailuresToWaitingParties(requestingPlayer, target);
                 if (_matchesInProgress.ContainsKey(targetPlayer.ID))
                 {
                     sendIDCallback(requestingPlayer, true);
                     sendIDCallback(targetPlayer, true);
+                    onSuccessfulMatch(requestingPlayer, targetPlayer);
                 }
                 else
                 {
