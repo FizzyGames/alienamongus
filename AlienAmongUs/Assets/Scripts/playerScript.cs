@@ -24,8 +24,10 @@ public class playerScript : MonoBehaviour {
     public List<int> CurrentRequesters { get; set; }
     private PlayerState _state;
     private PlayerType _type;
-    public const int POISON_TIMER_RESET = 2;
+    public const int POISON_TURNS_TIMER_RESET = 2;
+    public const float REQUEST_TIMER_RESET = 30;
     public int PoisonTimer { get; set; }
+    public float RequestingTimer { get; set; }
 
     public PlayerState State
     {
@@ -73,7 +75,7 @@ public class playerScript : MonoBehaviour {
         PhoneRef.RegisterCmdHandler<messageSetName>("setName", onSetName);
         PhoneRef.RegisterCmdHandler<messagePoison>("poison", onPoison);
         PhoneRef.RegisterCmdHandler<messageRequestScan>("requestScan", onRequestScan);
-        PoisonTimer = POISON_TIMER_RESET;
+        PoisonTimer = POISON_TURNS_TIMER_RESET;
     }
 
     void Start () {
@@ -167,6 +169,20 @@ public class playerScript : MonoBehaviour {
             {
                 death();
             }
+        }
+    }
+
+    public void serverTick(float deltaTime)
+    {
+        if(IsRequesting)
+        {
+            RequestingTimer += Time.deltaTime;
+        }
+        if(RequestingTimer > REQUEST_TIMER_RESET)
+        {
+            RequestingTimer = 0;
+            IsRequesting = false;
+            Manager.cancelRequest(ID);
         }
     }
 }

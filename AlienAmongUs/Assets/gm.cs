@@ -55,7 +55,32 @@ public class gm : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        tick();
+    }
 
+    private void tick()
+    {
+        for (int i = 0; i < AllPlayers.Count; i++)
+        {
+            AllPlayers[i].serverTick(Time.deltaTime);
+        }
+    }
+
+    private void checkGameState()
+    {
+        int aliveHumanPlayers = 0;
+        int aliveAlienPlayers = 0;
+        foreach (var idToPlayer in _idToPlayer)
+        {
+            if (!idToPlayer.Value.IsDown && !idToPlayer.Value.IsAlien)
+                ++aliveHumanPlayers;
+            else if (!idToPlayer.Value.IsDown && idToPlayer.Value.IsAlien)
+                ++aliveAlienPlayers;
+        }
+        if (aliveHumanPlayers == 0)
+            gameOver(false);
+        else if (aliveAlienPlayers == 0)
+            gameOver(true);
     }
 
     public void gameStart()
@@ -91,18 +116,18 @@ public class gm : MonoBehaviour
         if (targetPlayer.IsAlien)//if the target is an alien
         {
             //GAME OVER WE WIN
-            gameOver(true);
+            kill(targetPlayer.ID);
         }
         else//if it was a false accusation
         {
             kill(source);//kill them for making the mistake
         }
+        checkGameState();
     }
 
     public void poison(int target)
     {
         getPlayer(target).poison();
-
     }
 
     private void sendFailuresToWaitingParties(playerScript player)
@@ -159,6 +184,7 @@ public class gm : MonoBehaviour
     {
         player1.OnScan(player2);
         player2.OnScan(player1);
+        checkGameState();
     }
 
     public void requestID(int requester, int target)//this gets the target ID data and returns it to the requester
@@ -203,9 +229,20 @@ public class gm : MonoBehaviour
         //requestingPlayer.PhoneRef.SendCmd("idDelivery", new sendIDMessageTP(target, this));//THIS IS THE FUNCTION TO SEND A COMMAND TO THE PHONE, idDelivery is what the phone is listening for
     }
 
+    public void cancelRequest(int ID)
+    {
+        if (_matchesInProgress.ContainsKey(ID))
+        {
+            _matchesInProgress.Remove(ID);
+        }
+        playerScript player = getPlayer(ID);
+        player.IsRequesting = false;
+        sendIDCallback(player, false);
+    }
+
     public void assignID(playerScript target)
     {
-        target.PhoneRef.SendCmd("assignID", new messageAssignID(target.ID));
+        target.PhoneRef.SendCmd("assignID", new messageAssignIDTP(target.ID));
 
     }
 
@@ -323,12 +360,10 @@ public class gm : MonoBehaviour
         }
 
 
-        #endregion
-        //END COMMANDS TO BE SENT TO THE PHONE
     }
-    private class messageAssignID
+    private class messageAssignIDTP
     {
-        public messageAssignID(int _ID)
+        public messageAssignIDTP(int _ID)
         {
 
             ID = _ID;
@@ -337,4 +372,6 @@ public class gm : MonoBehaviour
 
         public int ID;
     }
+    #endregion
+    //END COMMANDS TO BE SENT TO THE PHONE
 }
