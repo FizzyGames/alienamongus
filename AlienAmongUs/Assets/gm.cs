@@ -77,7 +77,7 @@ public class gm : MonoBehaviour
             else if (!idToPlayer.Value.IsDown && idToPlayer.Value.IsAlien)
                 ++aliveAlienPlayers;
         }
-        if (aliveHumanPlayers == 0)
+        if (aliveHumanPlayers == 1 && aliveAlienPlayers == 1)
             gameOver(false);
         else if (aliveAlienPlayers == 0)
             gameOver(true);
@@ -102,6 +102,7 @@ public class gm : MonoBehaviour
             assignID(item);
             item.State = playerScript.PlayerState.Alive;
             assignState(item);
+            item.LastScannedID = -1;
         }
         int randomIndex = UnityEngine.Random.Range(0, _idToPlayer.Count);
         _idToPlayer.ElementAt(randomIndex).Value.Type = playerScript.PlayerType.Alien;
@@ -224,12 +225,17 @@ public class gm : MonoBehaviour
         //update grid to show two people interacting
         //we need to store who's interacting with who
         playerScript requestingPlayer = getPlayer(requester);
+        requestingPlayer.IsRequesting = false;
         if (requester == target)
         {
             sendIDCallback(requestingPlayer, false);
             return;
         }
-        requestingPlayer.IsRequesting = false;
+        if (requestingPlayer.LastScannedID == target)
+        {
+            sendIDCallback(requestingPlayer, false);
+            return;
+        }
         if (target != -1)
         {
             playerScript targetPlayer = null;
@@ -281,17 +287,20 @@ public class gm : MonoBehaviour
 
     public void assignID(playerScript target)
     {
+        Debug.Log(string.Format("assigning id to target " + target.PlayerName + " id + " + target.ID.ToString()));
         target.PhoneRef.SendCmd("assignID", new messageAssignIDTP(target.ID));
 
     }
 
     public void assignType(playerScript target)
     {
+        Debug.Log(string.Format("assigning type to target " + target.PlayerName + " type + " + target.Type.ToString()));
         target.PhoneRef.SendCmd("assignType", new messageAssignTypeTP(target.Type));
     }
 
     public void assignState(playerScript target)
     {
+        Debug.Log(string.Format("assigning state to target " + target.PlayerName + " state + " + target.State.ToString()));
         target.PhoneRef.SendCmd("assignState", new messageAssignStateTP(target.State));
     }
 

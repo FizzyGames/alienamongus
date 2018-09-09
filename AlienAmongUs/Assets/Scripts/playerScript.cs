@@ -25,10 +25,11 @@ public class playerScript : MonoBehaviour {
     public bool IsPoisoning { get; set; }
     private PlayerState _state;
     private PlayerType _type;
-    public const int POISON_TURNS_TIMER_RESET = 2;
+    public const int POISON_TURNS_TIMER_RESET = 1;
     public const float REQUEST_TIMER_RESET = 30;
     public int PoisonTimer { get; set; }
     public float RequestingTimer { get; set; }
+    public int LastScannedID { get; set; }
 
     public PlayerState State
     {
@@ -224,6 +225,7 @@ PhoneRef.RegisterCmdHandler<messageAccuse>("accuse", onAccuse);
 
     public void OnScan(playerScript other)
     {
+        LastScannedID = other.ID;
         if(State == PlayerState.Poisoned)
         {
             PoisonTimer -= 1;
