@@ -217,7 +217,7 @@ function myFunction(num) {
     else if (num == 88) {
         if (keypadVal>99){ 
             document.getElementById("numText").innerHTML = "";
-            
+            /*
             if(new Date().getTime() - alienKillTimerCounter > 300)
             {
               client.sendCmd('requestScan', {
@@ -233,6 +233,11 @@ function myFunction(num) {
                 scanType: 0,
               });
             }
+            */
+              client.sendCmd('requestScan', {
+                idToScan: parseInt(keypadVal),
+                scanType: 1,
+              });
             keypadVal = 0;
             alienKillTimerReset()
             document.getElementById("waitingForPlayer").style.display = "block";
@@ -355,7 +360,7 @@ client.addEventListener('gameOver', function (data) {
 client.addEventListener('idRequestCallback', function (data) {//this is when you send a code and the pc says yes this is valid ONLY HAPPENS FOR THE FIRST PERSON TO INTERACT, THE SECOND PERSON goes straight to IDDELIVERY
     if (data.successState == "Success") {
         document.getElementById("scannedName").innerHTML = data.playerName;
-        document.getElementById("ScannedImage").winnerHTML = "<img src=" + data.playerPhoto + ">";
+        document.getElementById("ScannedImage").innerHTML = "<img src=" + data.playerPhoto + ">";
         document.getElementById("waitingForPlayer").style.display = "none";
         document.getElementById("idPage").style.display = "block";
 
