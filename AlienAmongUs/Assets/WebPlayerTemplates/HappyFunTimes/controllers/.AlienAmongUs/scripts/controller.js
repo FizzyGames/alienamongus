@@ -287,6 +287,16 @@ client.addEventListener('assignType', function (data) {
 
 client.addEventListener('assignState', function (data) {
     state = data.state;
+    if (state == "Dead") {
+        document.getElementById("waitingForPlayer").style.display = "none";
+        document.getElementById("idPage").style.display = "none";
+        document.getElementById("welcomeScreen").style.display = "none";
+        document.getElementById("allTabs").style.display = "none";
+        document.getElementById("numpad").style.display = "none";
+        document.getElementById("info").style.display = "none";
+        document.getElementById("deadMessage").innerHTML = "YOU ARE DEAD"
+
+    }
 });
 
 
@@ -297,7 +307,7 @@ client.addEventListener('idRequestCallback', function (data) {//this is when you
         document.getElementById("scannedName").innerHTML = data.playerName;
         document.getElementById("waitingForPlayer").style.display = "none";
         document.getElementById("idPage").style.display = "block";
-        document.getElementById("allTabs").style.display = "block";
+
         
 
     }
@@ -305,6 +315,7 @@ client.addEventListener('idRequestCallback', function (data) {//this is when you
 
         document.getElementById("waitingForPlayer").style.display = "none";
         document.getElementById("numpad").style.display = "block";
+        document.getElementById("allTabs").style.display = "block";
 
     }
 
