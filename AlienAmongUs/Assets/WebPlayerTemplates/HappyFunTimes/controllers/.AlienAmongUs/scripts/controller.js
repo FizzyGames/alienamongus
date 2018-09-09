@@ -357,7 +357,9 @@ client.addEventListener('gameOver', function (data) {
 });
 
 
-
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
 
 client.addEventListener('idRequestCallback', function (data) {//this is when you send a code and the pc says yes this is valid ONLY HAPPENS FOR THE FIRST PERSON TO INTERACT, THE SECOND PERSON goes straight to IDDELIVERY
     if (data.successState == "Success") {
@@ -366,10 +368,36 @@ client.addEventListener('idRequestCallback', function (data) {//this is when you
         var firstDigit = data.playerID%10;
         var secondDigit = Math.floor(data.playerID/10)%10;
         var thirdDigit = Math.floor(data.playerID/100)-1;
-        document.getElementById("homePlanet").innerHTML = "Home Planet: " + homePlanets[thirdDigit];
-        document.getElementById("occupation").innerHTML = "Occupation: " + spaceOccupations[secondDigit];
-        document.getElementById("arrivedOn").innerHTML = "Arrived On: " +  spaceShip[firstDigit];
         
+
+        if (data.isAlien == true) {
+            var randVal = getRandomInt(3);
+            if (randVal == 0) {
+                document.getElementById("homePlanet").innerHTML = "Home Planet: " + homePlanets[getRandomInt(9)];
+                document.getElementById("occupation").innerHTML = "Occupation: " + spaceOccupations[secondDigit];
+                document.getElementById("arrivedOn").innerHTML = "Arrived On: " + spaceShip[firstDigit];
+
+            }
+            else if (randVal == 1) {
+                document.getElementById("homePlanet").innerHTML = "Home Planet: " + homePlanets[thirdDigit];
+                document.getElementById("occupation").innerHTML = "Occupation: " + spaceOccupations[getRandomInt(10)];
+                document.getElementById("arrivedOn").innerHTML = "Arrived On: " + spaceShip[firstDigit];
+                
+
+            }
+            else {
+                document.getElementById("homePlanet").innerHTML = "Home Planet: " + homePlanets[thirdDigit];
+                document.getElementById("occupation").innerHTML = "Occupation: " + spaceOccupations[secondDigit];
+                document.getElementById("arrivedOn").innerHTML = "Arrived On: " + spaceShip[getRandomInt(10)];
+            }
+
+        }
+
+        else {
+            document.getElementById("homePlanet").innerHTML = "Home Planet: " + homePlanets[thirdDigit];
+            document.getElementById("occupation").innerHTML = "Occupation: " + spaceOccupations[secondDigit];
+            document.getElementById("arrivedOn").innerHTML = "Arrived On: " + spaceShip[firstDigit];
+        }
 
         document.getElementById("ScannedImage").innerHTML = "<img src=" + data.playerPhoto + ">";
 

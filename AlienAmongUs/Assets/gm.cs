@@ -436,9 +436,12 @@ public class gm : MonoBehaviour
             Success,
         }
         public readonly MessageSuccessState successState;
+        public readonly bool isAlien;
         public idRequestMessageTP(MessageSuccessState state, int targetID, gm manager)
             : base(targetID, manager)
         {
+            isAlien = manager.getPlayer(targetID).IsAlien;
+
             successState = state;
         }
 
