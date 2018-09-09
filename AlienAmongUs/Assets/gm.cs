@@ -164,10 +164,7 @@ public class gm : MonoBehaviour
                 _matchesInProgress.Remove(match.Key);
             }
         }
-        if (playerScript.Type == playerScript.PlayerType.Alien)
-        {
-            gameOver(true);
-        }
+        checkGameState();
     }
 
     private void gameOver(bool humansWin)
