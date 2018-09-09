@@ -23,6 +23,12 @@ public class databaseDisplayScript : MonoBehaviour {
     [ContextMenu("Start Game Display")]
     public void startGameDisplay()
     {
+        foreach (GameObject item in playerAvatars)
+        {
+            Destroy(item);
+        }
+        playerAvatars.Clear();
+        players.Clear();
         foreach (playerScript p in gms.AllPlayers)
         {
             players.Add(p.gameObject);

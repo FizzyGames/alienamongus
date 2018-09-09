@@ -108,6 +108,15 @@ PhoneRef.RegisterCmdHandler<messageAccuse>("accuse", onAccuse);
         Manager.reinitialize(this);
     }
 
+    public void resetGameState()
+    {
+        LastScannedID = -1;
+        IsPoisoning = false;
+        IsRequesting = false;
+        PoisonTimer = POISON_TURNS_TIMER_RESET;
+        RequestingTimer = 0;
+        CurrentRequesters.Clear();
+    }
 
     void Start () {
 		

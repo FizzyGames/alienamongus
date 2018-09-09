@@ -136,6 +136,11 @@ function gameStart() {
     document.getElementById("waitingForGameStart").style.display = "none";
     document.getElementById("allTabs").style.display = "block";
     document.getElementById("numpad").style.display = "block";
+    var accusationMenu = $('#accusation_menu');
+	accusationMenu.html("");
+	var numpadElement = document.getElementById("tabParent");
+	var instance = M.Tabs.getInstance(numpadElement);
+	instance.select('numpadTab');
 }
 var keypadVal = 0;
 
@@ -286,18 +291,19 @@ var type;
 var state;
 
 client.addEventListener('assignType', function (data) {
-    document.getElementById("playerType").innerHTML = "Your species is " + type;
-    if (type == "Alien") {
-        document.getElementById("instructions").innerHTML = 'You must kill every human on the station. After entering an ID, if you hold the checkmark button for a moment and then releasing, you poison the targeted human.'
 
-    }
-    else {
-        document.getElementById("instructions").innerHTML = 'You must notice the interactions of the people around you '
-    }
     type = data.type;
 	console.log(type);
 	console.log(ID);
 	console.log(state);
+	document.getElementById("playerType").innerHTML = "Your species is " + type;
+	if (type == "Alien") {
+	    document.getElementById("instructions").innerHTML = 'You must kill every human on the station. After entering an ID, if you hold the checkmark button for a moment and then releasing, you poison the targeted human.'
+
+	}
+	else {
+	    document.getElementById("instructions").innerHTML = 'You must notice the interactions of the people around you '
+	}
 	if(ID!=0)
 	{
 		console.log("starting game");
@@ -321,6 +327,26 @@ client.addEventListener('assignState', function (data) {
         document.getElementById("deadMessage").innerHTML = "YOU ARE DEAD"
 
     }
+});
+
+client.addEventListener('gameOver', function (data) {
+    document.getElementById("waitingForPlayer").style.display = "none";
+    document.getElementById("idPage").style.display = "none";
+    document.getElementById("welcomeScreen").style.display = "none";
+    document.getElementById("allTabs").style.display = "none";
+    document.getElementById("numpad").style.display = "none";
+    document.getElementById("info").style.display = "none";
+    document.getElementById("accusation_menu").style.display = "none";
+
+    if (data.humansWin==1) {
+
+        document.getElementById("deadMessage").innerHTML = "HUMANS WIN";
+ 
+    }
+    else
+        document.getElementById("deadMessage").innerHTML = "ALIENS WIN";
+
+
 });
 
 

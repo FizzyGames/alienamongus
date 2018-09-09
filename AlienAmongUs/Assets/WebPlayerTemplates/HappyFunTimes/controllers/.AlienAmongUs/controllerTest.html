@@ -52,8 +52,8 @@
 <div id="hft-everything">
     <div id="allTabs" class="row" style = "z-index: 4000">
         <div class="col s12">
-            <ul class="tabs">
-                <li class="tab" ><a href="#numpad">Scan</a></li>
+            <ul class="tabs" id="tabParent">
+                <li id="numpadTab" class="tab" ><a href="#numpad">Scan</a></li>
                 <li class="tab"><a href="#accusation_menu" onclick="setAccusationMenu()">Accuse</a></li>
                 <li class="tab"><a href="#info" >Info</a></li>
             </ul>
@@ -193,8 +193,8 @@
 <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
 <script src="/hft/hft.js"></script>
 <script src="/sample-ui/sample-ui.js"></script>
-<script src="scripts/controller.js"></script>
 <script src="/3rdparty/.materialize/js/materialize.min.js"></script>
+<script src="scripts/controller.js"></script>
 <script>
     
     document.getElementById("allTabs").style.display = "none";
