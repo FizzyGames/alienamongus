@@ -100,6 +100,7 @@ public class gm : MonoBehaviour
             item.ID = value;
             _idToPlayer.Add(value, item);
             assignID(item);
+            item.State = playerScript.PlayerState.Alive;
         }
         int randomIndex = UnityEngine.Random.Range(0, _idToPlayer.Count);
         _idToPlayer.ElementAt(randomIndex).Value.Type = playerScript.PlayerType.Alien;
@@ -194,8 +195,12 @@ public class gm : MonoBehaviour
     {
         //update grid to show two people interacting
         //we need to store who's interacting with who
-
         playerScript requestingPlayer = getPlayer(requester);
+        if (requester == target)
+        {
+            sendIDCallback(requestingPlayer, false);
+            return;
+        }
         requestingPlayer.IsRequesting = false;
         if (target != -1)
         {
