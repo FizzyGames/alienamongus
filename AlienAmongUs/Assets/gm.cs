@@ -100,7 +100,10 @@ public class gm : MonoBehaviour
             item.ID = value;
             _idToPlayer.Add(value, item);
             assignID(item);
+            item.State = playerScript.PlayerState.Alive;
         }
+        int randomIndex = UnityEngine.Random.Range(0, _idToPlayer.Count);
+        _idToPlayer.ElementAt(randomIndex).Value.Type = playerScript.PlayerType.Alien;
     }
 
     public void addPlayer(playerScript p)//this is called when a player joins
@@ -130,15 +133,19 @@ public class gm : MonoBehaviour
         getPlayer(target).poison();
     }
 
-    private void sendFailuresToWaitingParties(playerScript player)
+    private void sendFailuresToWaitingParties(playerScript player, int validTarget)
     {
         int requestedCount = player.CurrentRequesters.Count;
         if (requestedCount != 0)
         {
             for (int i = 0; i < requestedCount; i++)
             {
-                playerScript previousRequester = getPlayer(player.CurrentRequesters[i]);
-                sendIDCallback(previousRequester, false);
+                int currID = player.CurrentRequesters[i];
+                if (currID != validTarget)
+                {
+                    playerScript previousRequester = getPlayer(currID);
+                    sendIDCallback(previousRequester, false);
+                }
             }
             player.CurrentRequesters.Clear();
         }
@@ -152,6 +159,7 @@ public class gm : MonoBehaviour
     public void onDeath(playerScript playerScript)
     {
         int recipient;
+        GameObject.FindObjectOfType<databaseDisplayScript>().killPlayer(playerScript);
         if (_matchesInProgress.TryGetValue(playerScript.ID, out recipient))
         {
             _matchesInProgress.Remove(playerScript.ID);
@@ -175,10 +183,13 @@ public class gm : MonoBehaviour
     public void onSuccessfulMatch(int player1, int player2)
     {
         onSuccessfulMatch(getPlayer(player1), getPlayer(player2));
+
     }
 
     public void onSuccessfulMatch(playerScript player1, playerScript player2)
     {
+        GameObject.FindObjectOfType<databaseDisplayScript>().glowPlayer(player1);
+        GameObject.FindObjectOfType<databaseDisplayScript>().glowPlayer(player2);
         player1.OnScan(player2);
         player2.OnScan(player1);
         checkGameState();
@@ -188,19 +199,24 @@ public class gm : MonoBehaviour
     {
         //update grid to show two people interacting
         //we need to store who's interacting with who
-
         playerScript requestingPlayer = getPlayer(requester);
+        if (requester == target)
+        {
+            sendIDCallback(requestingPlayer, false);
+            return;
+        }
         requestingPlayer.IsRequesting = false;
         if (target != -1)
         {
             playerScript targetPlayer = null;
             if (tryGetPlayer(target, out targetPlayer))
             {
-                sendFailuresToWaitingParties(requestingPlayer);
+                sendFailuresToWaitingParties(requestingPlayer, target);
                 if (_matchesInProgress.ContainsKey(targetPlayer.ID))
                 {
                     sendIDCallback(requestingPlayer, true);
                     sendIDCallback(targetPlayer, true);
+                    onSuccessfulMatch(requestingPlayer, targetPlayer);
                 }
                 else
                 {

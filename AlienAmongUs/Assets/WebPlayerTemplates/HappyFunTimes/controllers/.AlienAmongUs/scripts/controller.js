@@ -142,8 +142,10 @@ function closeID() {
     document.getElementById("numpad").style.display = "block";
 }
 
-function openCamera() {
+var profilePic
+function openCamera(pic) {
     //fix this later plx
+    profilePic = pic;
     waitForGameStart();
 
 }
@@ -210,6 +212,8 @@ client.addEventListener('idDelivery', function (data) {
 
 client.addEventListener('assignID', function (data) {
     ID = data.ID;
+    document.getElementById("idref1").innerHTML = "Your ID is " + ID;
+    document.getElementById("idref2").innerHTML = "Your ID is " + ID;
 });
 
 
