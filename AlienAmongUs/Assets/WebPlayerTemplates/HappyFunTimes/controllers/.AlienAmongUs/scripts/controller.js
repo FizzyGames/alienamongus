@@ -329,7 +329,7 @@ client.addEventListener('assignState', function (data) {
 client.addEventListener('idRequestCallback', function (data) {//this is when you send a code and the pc says yes this is valid ONLY HAPPENS FOR THE FIRST PERSON TO INTERACT, THE SECOND PERSON goes straight to IDDELIVERY
     if (data.successState == "Success") {
         document.getElementById("scannedName").innerHTML = data.playerName;
-        document.getElementById("ScannedImage").innerHTML = "<img src=" + data.playerPhoto + ">";
+        document.getElementById("ScannedImage").winnerHTML = "<img src=" + data.playerPhoto + ">";
         document.getElementById("waitingForPlayer").style.display = "none";
         document.getElementById("idPage").style.display = "block";
 
