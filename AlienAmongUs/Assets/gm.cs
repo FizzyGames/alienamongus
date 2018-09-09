@@ -185,6 +185,7 @@ public class gm : MonoBehaviour
                 _matchesInProgress.Remove(match.Key);
             }
         }
+        assignState(playerScript);
         checkGameState();
     }
 
@@ -235,11 +236,13 @@ public class gm : MonoBehaviour
             if (tryGetPlayer(target, out targetPlayer))
             {
                 sendFailuresToWaitingParties(requestingPlayer, target);
-                if (_matchesInProgress.ContainsKey(targetPlayer.ID))
+                if (_matchesInProgress.ContainsKey(target))
                 {
                     sendIDCallback(requestingPlayer, true, targetPlayer);
                     sendIDCallback(targetPlayer, true, requestingPlayer);
+                    targetPlayer.IsRequesting = false;
                     onSuccessfulMatch(requestingPlayer, targetPlayer);
+                    _matchesInProgress.Remove(target);
                 }
                 else
                 {

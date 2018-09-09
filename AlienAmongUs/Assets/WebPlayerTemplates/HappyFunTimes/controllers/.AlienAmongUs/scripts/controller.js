@@ -283,12 +283,13 @@ var state
 
 client.addEventListener('assignType', function (data) {
     type = data.type;
-    gameStart();
+	if(ID!=0)
+		gameStart();
 });
 
 client.addEventListener('assignState', function (data) {
     state = data.state;
-    if (state == "Dead") {
+    if (state == "Dead" && ID != 0) {
         document.getElementById("waitingForPlayer").style.display = "none";
         document.getElementById("idPage").style.display = "none";
         document.getElementById("welcomeScreen").style.display = "none";
