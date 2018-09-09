@@ -439,3 +439,5 @@ $(document).ready(function(){
 var check = document.getElementById("confirmbutton");
 check.addEventListener("mousedown", function () {alienKillTimer();});
 check.addEventListener("mouseup", function() {myFunction(88);});
+check.addEventListener("touchend", function() {myFunction(88);});
+check.addEventListener("touchstart", function() {alienKillTimer();});

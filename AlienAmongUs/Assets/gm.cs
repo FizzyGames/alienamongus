@@ -71,6 +71,7 @@ public class gm : MonoBehaviour
     private void checkGameState()
     {
         int aliveHumanPlayers = 0;
+        int stillStandingHumans = 0;
         int aliveAlienPlayers = 0;
         foreach (var idToPlayer in _idToPlayer)
         {
@@ -78,8 +79,10 @@ public class gm : MonoBehaviour
                 ++aliveHumanPlayers;
             else if (!idToPlayer.Value.IsDown && idToPlayer.Value.IsAlien)
                 ++aliveAlienPlayers;
+            if (!idToPlayer.Value.IsAlien && idToPlayer.Value.IsAlive)
+                ++stillStandingHumans;
         }
-        if (aliveHumanPlayers <= 1 && aliveAlienPlayers >= 1)
+        if (stillStandingHumans <= 1 && aliveAlienPlayers >= 1)
             gameOver(false);
         else if (aliveAlienPlayers == 0)
             gameOver(true);
