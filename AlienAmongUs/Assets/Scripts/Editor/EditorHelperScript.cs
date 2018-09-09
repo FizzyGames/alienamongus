@@ -21,6 +21,6 @@ public static class EditorHelperScript
         Debug.Log(output);
         DeJson.Deserializer deserializer = new DeJson.Deserializer();
         listMessageTP = deserializer.Deserialize<gm.listMessageTP>(output);
-        Debug.Log(((Texture2D)listMessageTP._messages[0].playerPhoto).GetPixel(0, 0));
+        //Debug.Log(((Texture2D)listMessageTP._messages[0].playerPhoto).GetPixel(0, 0));
     }
 }

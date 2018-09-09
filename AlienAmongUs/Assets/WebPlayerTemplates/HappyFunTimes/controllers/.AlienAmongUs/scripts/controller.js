@@ -73,6 +73,17 @@ var sendMoveCmd = function(position, target) {
   });
 };
 
+// Sends a request for all the players' data
+var sendAccusationRequest = function()
+{
+	client.sendCmd("accuseListRequest", {});
+};
+
+function setAccusationMenu() {
+    var accusationMenu = $('#accusation_menu');
+	accusationMenu.html("");
+	sendAccusationRequest();
+}
 
 
 // Pick a random color
@@ -81,9 +92,10 @@ var color =  'rgb(' + randInt(256) + "," + randInt(256) + "," + randInt(256) + "
 //
 // This will generate a 'color' event in the corresponding
 // NetPlayer object in the game.
-client.sendCmd('color', {
-  color: color,
-});
+
+//client.sendCmd('color', {
+//  color: color,
+//});
 colorElem.style.backgroundColor = color;
 
 // Send a message to the game when the screen is touched
@@ -93,7 +105,7 @@ inputElem.addEventListener('pointermove', function(event) {
   event.preventDefault();
 });
 
-$("abutton").addEventListener('click', function() {
+document.getElementById("abutton").addEventListener('click', function() {
   settingsElement.style.display = "none";
   s.playerNameHandler.startNameEntry();
 }, false);
@@ -197,9 +209,21 @@ client.addEventListener('validID', function (data) {//this is when you send a co
         
 
 });
+// Update accusable list
+client.addEventListener('targetDelivery', function(cmd) {
+	document.getElementById("button33").innerHTML = "received";
+    var accusationMenu = $('#accusation_menu');
+	jQuery.each(cmd["_messages"], function(index, player) {
+		var currElement = document.createElement('a');
+		currElement.setAttribute('class', 'waves-effect waves-light btn col s6'); 
+		let pID = player.playerID;
+		currElement.setAttribute('onClick', 'accuseUser('+player.playerID+')');
+		currElement.innerHTML = player.playerName;
+		currElement.style.color = player.playerStatus != "Dead" ? "green" : "red";
+		accusationMenu.append(currElement);
+	})});
+
 
 $(document).ready(function(){
   $('.tabs').tabs();
 });
-
-$('#abutton').html('hell yeah');

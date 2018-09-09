@@ -8,6 +8,17 @@ public class gm : MonoBehaviour
 {
     private List<playerScript> _allPlayers;
     private Dictionary<int, playerScript> _idToPlayer;
+    static readonly int[] allPossibleValues = populateAllPossible();
+    List<int> allCurrentPossible;
+    static int[] populateAllPossible()
+    {
+        int[] values = new int[1000-100];
+        for (int i = 100; i < 1000; i++)
+        {
+            values[i - 100] = i;
+        }
+        return values;
+    }
 
     public List<playerScript> AllPlayers
     {
@@ -44,6 +55,18 @@ public class gm : MonoBehaviour
     {
         //assign IDs to every player
         //idToPlayer.Add(p.ID, p);//and add the ID to the dictionary
+        _idToPlayer = new Dictionary<int, playerScript>();
+        //allCurrentPossible = new int[allPossibleValues.Length];
+        //Array.Copy(allPossibleValues, allCurrentPossible, allPossibleValues.Length);
+        allCurrentPossible = new List<int>(allPossibleValues);
+        foreach (playerScript item in AllPlayers)
+        {
+            int index = UnityEngine.Random.Range(0, allCurrentPossible.Count);
+            int value = allCurrentPossible[index];
+            allCurrentPossible.Remove(index);
+            item.ID = value;
+            _idToPlayer.Add(value, item);
+        }
     }
 
     public void addPlayer(playerScript p)//this is called when a player joins
@@ -53,7 +76,10 @@ public class gm : MonoBehaviour
 
     public void accusation(int source, int target)
     {
-        if (getPlayer(target).IsAlien)//if the target is an alien
+        playerScript targetPlayer = getPlayer(target);
+        if (!targetPlayer.IsAlive)
+            return;
+        if (targetPlayer.IsAlien)//if the target is an alien
         {
             //GAME OVER WE WIN
 
@@ -88,6 +114,12 @@ public class gm : MonoBehaviour
         requestingPlayer.PhoneRef.SendCmd("targetDelivery", new listMessageTP(targets, this));
     }
 
+    public void sendAllTargets(int requester)
+    {
+        playerScript requestingPlayer = getPlayer(requester);
+        requestingPlayer.PhoneRef.SendCmd("targetDelivery", new listMessageTP(new List<int>(_idToPlayer.Keys), this));
+    }
+
 
     public void kill(int target)
     {
@@ -108,8 +140,9 @@ public class gm : MonoBehaviour
             Debug.Assert(player != null);
             //player.PlayerName = playerName;
             //player.PlayerPhoto = playerPhoto;
-            playerName = player.PlayerName;
-            playerPhoto = player.PlayerPhoto;
+            playerID = target;
+            playerName = player.PlayerName != null ? player.PlayerName : "unnamed";
+            playerPhoto = player.PlayerPhoto != null ? Utility.ConvertTexture2DToString(player.PlayerPhoto) : "null";
         }
 
         public sendIDMessageTP()
@@ -118,16 +151,17 @@ public class gm : MonoBehaviour
         }
 
 #if UNITY_EDITOR && DEBUG
-        public sendIDMessageTP(string name, Texture texture)
+        public sendIDMessageTP(string name, Texture2D texture)
         {
             if (Application.isPlaying)
                 Debug.LogError("Critical Error: Test Constructor called in build!");
             playerName = name;
-            playerPhoto = texture;
+            playerPhoto = texture != null ? Utility.ConvertTexture2DToString(texture) : null;
         }
 #endif
+        public readonly int playerID = 0;
         public readonly string playerName = null;
-        public readonly Texture playerPhoto = null;
+        public readonly string playerPhoto = null;
         public readonly playerScript.PlayerState playerStatus = playerScript.PlayerState.Alive;
 
         //on the phone, the handler will look like

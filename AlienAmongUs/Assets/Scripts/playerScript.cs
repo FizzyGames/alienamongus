@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using HappyFunTimes;
+using System;
 
 public class playerScript : MonoBehaviour {
     public enum PlayerState
@@ -17,7 +18,7 @@ public class playerScript : MonoBehaviour {
     }
 	public int ID { get; set; }
 	public string PlayerName { get; set; }
-	public Texture PlayerPhoto { get; set; }
+	public Texture2D PlayerPhoto { get; set; }
 	public HappyFunTimes.NetPlayer PhoneRef { get; set; }
     public gm Manager { get; set; }
     private PlayerState _state;
@@ -62,12 +63,12 @@ public class playerScript : MonoBehaviour {
         Manager = GameObject.FindObjectOfType<gm>();
         Manager.addPlayer(this);
         PhoneRef.RegisterCmdHandler<messageAccuse>("accuse", onAccuse);
+        PhoneRef.RegisterCmdHandler<messageAccuseListRequest>("accuseListRequest", onAccuseListRequest);
         PhoneRef.RegisterCmdHandler<messageSetName>("setName", onSetName);
         PhoneRef.RegisterCmdHandler<messagePoison>("poison", onPoison);
         PhoneRef.RegisterCmdHandler<messageRequestScan>("requestScan", onRequestScan);
 
     }
-    
 
     void Start () {
 		
@@ -123,6 +124,17 @@ public class playerScript : MonoBehaviour {
 
         //update the main screen to reflect this
     }
+
+    private class messageAccuseListRequest
+    {
+        public string a;
+    }
+
+    private void onAccuseListRequest(messageAccuseListRequest eventArgs)
+    {
+        Manager.sendAllTargets(ID);
+    }
+
 
     public void death()
     {
