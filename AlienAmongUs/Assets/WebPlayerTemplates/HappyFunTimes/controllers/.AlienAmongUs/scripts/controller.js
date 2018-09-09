@@ -141,6 +141,7 @@ function gameStart() {
 	var numpadElement = document.getElementById("tabParent");
 	var instance = M.Tabs.getInstance(numpadElement);
 	instance.select('numpadTab');
+	document.getElementById("deadMessage").innerHTML = "";
 }
 var keypadVal = 0;
 
@@ -417,3 +418,7 @@ client.addEventListener('targetDelivery', function(cmd) {
 $(document).ready(function(){
   $('.tabs').tabs();
 });
+
+var check = document.getElementById("confirmbutton");
+check.addEventListener("mousedown", function () {alienKillTimer();});
+check.addEventListener("mouseup", function() {myFunction(88);});
